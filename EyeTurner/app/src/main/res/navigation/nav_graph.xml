@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/FirstFragment">
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="raymondbdev.eyeturner.Fragments.FirstFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
+        <action
+            android:id="@+id/action_Home_To_Tutorial1"
+            app:destination="@id/tutorial1" />
+        <action
+            android:id="@+id/action_Home_To_BookReader"
+            app:destination="@id/pageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tutorial1"
+        android:name="raymondbdev.eyeturner.Fragments.TutorialFragment1"
+        android:label="action_library_to_tutorial_start"
+        tools:layout="@layout/fragment_tutorial1" >
+        <action
+            android:id="@+id/action_completeTutorial1"
+            app:destination="@id/tutorial2" />
+    </fragment>
+    <fragment
+        android:id="@+id/tutorial2"
+        android:name="raymondbdev.eyeturner.Fragments.TutorialFragment2"
+        android:label="fragment_tutorial2"
+        tools:layout="@layout/fragment_tutorial2" >
+        <action
+            android:id="@+id/action_completeTutorial2"
+            app:destination="@id/tutorial3" />
+        <action
+            android:id="@+id/action_tutorial2_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pageFragment"
+        android:name="raymondbdev.eyeturner.Fragments.PageFragment"
+        android:label="fragment_page"
+        tools:layout="@layout/fragment_page" />
+    <fragment
+        android:id="@+id/tutorial3"
+        android:name="raymondbdev.eyeturner.Fragments.TutorialFragment3"
+        android:label="fragment_tutorial3"
+        tools:layout="@layout/fragment_tutorial3" >
+        <action
+            android:id="@+id/action_completeTutorial3"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+</navigation>
