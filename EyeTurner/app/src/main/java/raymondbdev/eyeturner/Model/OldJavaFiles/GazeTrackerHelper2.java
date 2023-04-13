@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Model;
+package raymondbdev.eyeturner.Model.OldJavaFiles;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,9 +10,8 @@ import camp.visual.gazetracker.callback.GazeCallback;
 import camp.visual.gazetracker.callback.InitializationCallback;
 import camp.visual.gazetracker.callback.UserStatusCallback;
 import camp.visual.gazetracker.constant.InitializationErrorType;
-import camp.visual.gazetracker.constant.UserStatusOption;
 
-public class GazeTrackerHelper {
+public class GazeTrackerHelper2 {
     private final String devKey = "dev_9cnwers1nq1kqt1rvxr5na2vfseqer25hlmc0vbh";
 
     private final WeakReference<Context> mContext;
@@ -28,7 +27,7 @@ public class GazeTrackerHelper {
         }
     };
 
-    public GazeTrackerHelper(Context context) {
+    public GazeTrackerHelper2(Context context) {
         this.mContext = new WeakReference<>(context);
     }
 
@@ -37,16 +36,16 @@ public class GazeTrackerHelper {
     }
 
     public void setGazeCallback(GazeCallback gazeCallback) {
-        Log.i("Gazecallback", String.valueOf(gazeCallback));
         this.gazeCallback = gazeCallback;
     }
 
     public void initGazeTracker() {
         // GazeTracker can react on Blink action.
-        UserStatusOption options = new UserStatusOption();
-        options.useBlink();
+        // UserStatusOption options = new UserStatusOption();
+        // options.useBlink();
+        // GazeTracker.initGazeTracker(mContext.get(), devKey, initializationCallback, options);
 
-        GazeTracker.initGazeTracker(mContext.get(), devKey, initializationCallback, options);
+        GazeTracker.initGazeTracker(mContext.get(), devKey, initializationCallback);
     }
 
     private void successfulInitialization(GazeTracker gazeTracker) {
@@ -58,14 +57,13 @@ public class GazeTrackerHelper {
             this.gazeTracker.setUserStatusCallback(userStatusCallback);
         }
 
-        Log.i("Gazecallback Start", String.valueOf(gazeCallback));
-
         this.gazeTracker.setGazeCallback(gazeCallback);
         this.gazeTracker.startTracking();
     }
 
     private void failedInitialization(InitializationErrorType error) {
         String err = "";
+        Log.w("SeeSo Error Type: ", String.valueOf(error));
         if (error == InitializationErrorType.ERROR_INIT) {
             // When initialization is failed
             err = "Initialization failed.";
@@ -78,10 +76,11 @@ public class GazeTrackerHelper {
             err = "Gaze Initialization library failed.";
         }
         Log.w("SeeSo", "Initialization Error: " + err);
+        initGazeTracker();
     }
 
     public void deinitGazeTracker() {
         GazeTracker.deinitGazeTracker(gazeTracker);
-        this.gazeTracker = null;
+        gazeTracker = null;
     }
 }

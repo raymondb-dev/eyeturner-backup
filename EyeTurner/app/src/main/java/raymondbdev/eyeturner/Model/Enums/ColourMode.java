@@ -1,2 +1,6 @@
-package raymondbdev.eyeturner.Model;public enum ColourMode {
+package raymondbdev.eyeturner.Model.Enums;
+
+public enum ColourMode {
+    LIGHT_MODE,
+    DARK_MODE
 }

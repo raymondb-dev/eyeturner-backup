@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import camp.visual.gazetracker.callback.GazeCallback;
-import raymondbdev.eyeturner.Model.EyeGesture;
+import raymondbdev.eyeturner.Model.Enums.EyeGesture;
 import raymondbdev.eyeturner.Model.EyeGestureParser;
 import raymondbdev.eyeturner.Model.GazeTrackerHelper;
 import raymondbdev.eyeturner.Model.ParentViewModel;
@@ -45,21 +45,23 @@ public class TutorialFragment1 extends Fragment {
             Log.i("Eye Gesture Performed:", "Looked Left");
             lookLeftCount++;
             requireActivity().runOnUiThread(() -> binding.leftCountText.setText(String.valueOf(lookLeftCount)));
+            parentViewModel.vibrate();
 
         } else if (gesture == EyeGesture.LOOK_RIGHT) {
             Log.i("Eye Gesture Performed:", "Looked Right");
             lookRightCount++;
             requireActivity().runOnUiThread(() -> binding.rightCountText.setText(String.valueOf(lookRightCount)));
+            parentViewModel.vibrate();
 
         }
 
         if(lookLeftCount >= 3 && lookRightCount >= 3 && !finished) {
             finished = true;
+            gazeTrackerHelper.deinitGazeTracker();
 
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    gazeTrackerHelper.deinitGazeTracker();
                     NavHostFragment.findNavController(TutorialFragment1.this)
                             .navigate(R.id.action_completeTutorial1);
                 }

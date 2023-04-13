@@ -12,12 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import camp.visual.gazetracker.callback.GazeCallback;
-import raymondbdev.eyeturner.Model.EyeGesture;
+import raymondbdev.eyeturner.Model.Enums.EyeGesture;
 import raymondbdev.eyeturner.Model.EyeGestureParser;
 import raymondbdev.eyeturner.Model.GazeTrackerHelper;
 import raymondbdev.eyeturner.Model.ParentViewModel;
 import raymondbdev.eyeturner.R;
-import raymondbdev.eyeturner.databinding.FragmentTutorial1Binding;
 import raymondbdev.eyeturner.databinding.FragmentTutorial2Binding;
 
 /**
@@ -82,7 +81,6 @@ public class TutorialFragment2 extends Fragment {
         TutorialFragment2 fragment = new TutorialFragment2();
         return fragment;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

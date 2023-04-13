@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Model;
+package raymondbdev.eyeturner.Model.OldJavaFiles;
 
 import android.Manifest;
 import android.content.Context;

@@ -15,17 +15,19 @@
             android:layout_width="216dp"
             android:layout_height="22dp"
             android:layout_marginStart="56dp"
+            android:fontFamily="serif"
             android:text="Perform &quot;Look Right&quot; gesture x 3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.868" />
+            app:layout_constraintVertical_bias="0.864" />
 
         <TextView
             android:id="@+id/leftGestureText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
+            android:fontFamily="serif"
             android:text="Performed &quot;Look Left&quot; Gesture x 3"
             app:layout_constraintBottom_toTopOf="@+id/rightGestureText"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,19 +46,23 @@
 
         <TextView
             android:id="@+id/leftCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="28dp"
+            android:fontFamily="serif"
             android:text="0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@+id/rightGestureText"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toEndOf="@+id/leftGestureText"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.489" />
 
         <TextView
             android:id="@+id/rightCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="27dp"
+            android:fontFamily="serif"
             android:text="0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="parent"

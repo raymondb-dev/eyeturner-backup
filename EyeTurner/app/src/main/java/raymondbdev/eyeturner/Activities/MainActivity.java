@@ -2,6 +2,8 @@ package raymondbdev.eyeturner.Activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -15,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Vibrator;
+import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +37,7 @@ import camp.visual.gazetracker.constant.UserStatusOption;
 import raymondbdev.eyeturner.Fragments.PageFragment;
 import raymondbdev.eyeturner.Model.GazeTrackerHelper;
 import raymondbdev.eyeturner.Model.ParentViewModel;
+import raymondbdev.eyeturner.Model.SettingsManager;
 import raymondbdev.eyeturner.R;
 import raymondbdev.eyeturner.databinding.ActivityMainBinding;
 
@@ -46,9 +51,9 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private ParentViewModel parentViewModel;
-    private GazeTrackerHelper gazeTrackerHelper;
 
-    private static final String[] PERMISSIONS = new String[] {android.Manifest.permission.CAMERA};
+    private static final String[] PERMISSIONS = new String[] {android.Manifest.permission.CAMERA,
+                                                              Manifest.permission.READ_EXTERNAL_STORAGE};
     private static final int REQ_PERMISSION = 1000;
 
     private AppBarConfiguration appBarConfiguration;
@@ -58,10 +63,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        gazeTrackerHelper = new GazeTrackerHelper(getApplicationContext());
+        GazeTrackerHelper gazeTrackerHelper = new GazeTrackerHelper(getApplicationContext());
+        SettingsManager settingsManager = new SettingsManager();
+        Vibrator vibrator = this.getSystemService(Vibrator.class);
+        Reader reader = new Reader();
 
         parentViewModel = new ViewModelProvider(this).get(ParentViewModel.class);
         parentViewModel.setTracker(gazeTrackerHelper);
+        parentViewModel.setSettingsManager(settingsManager);
+        parentViewModel.setVibrator(vibrator);
+        parentViewModel.setBookReader(reader);
+        parentViewModel.setMutableContentResolver(getContentResolver());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

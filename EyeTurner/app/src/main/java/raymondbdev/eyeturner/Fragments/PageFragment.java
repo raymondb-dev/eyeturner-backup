@@ -1,6 +1,7 @@
 package raymondbdev.eyeturner.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.github.mertakdut.BookSection;
+import com.github.mertakdut.Reader;
+import com.github.mertakdut.exception.OutOfPagesException;
+import com.github.mertakdut.exception.ReadingException;
 
 import camp.visual.gazetracker.callback.GazeCallback;
-import raymondbdev.eyeturner.Model.EyeGesture;
+import raymondbdev.eyeturner.Model.Enums.EyeGesture;
 import raymondbdev.eyeturner.Model.EyeGestureParser;
 import raymondbdev.eyeturner.Model.GazeTrackerHelper;
 import raymondbdev.eyeturner.Model.ParentViewModel;
+import raymondbdev.eyeturner.Model.SettingsManager;
 import raymondbdev.eyeturner.databinding.FragmentPageBinding;
 
 /**
@@ -29,12 +33,12 @@ public class PageFragment extends Fragment {
     private ParentViewModel parentViewModel;
     private GazeTrackerHelper gazeTrackerHelper;
     private EyeGestureParser eyeGestureParser;
+    private SettingsManager settingsManager;
+    private Reader reader;
 
     private static final String ARG_PAGE_CONTENTS = "PageContents";
     private String mPageContents;
-    private Integer currentPageIndex = 0;
-
-    private final List<String> pages;
+    private Integer currentPageIndex = 1;
 
     private FragmentPageBinding binding;
 
@@ -50,37 +54,7 @@ public class PageFragment extends Fragment {
     };
 
     public PageFragment() {
-        // Required empty public constructor
-        pages = new ArrayList<>();
-        pages.add("The notion that useful conclusions could be drawn from information about the movement of\n" +
-                "a person's eyes has been around for well over a century. For a sighted person, the primary\n" +
-                "means of interacting with the world is through visual input, so it is natural to assume that\n" +
-                "information about what a person is looking at in any given moment would be instrumental\n" +
-                "in determining how that person is interacting with the world. In the field of humancomputer\n" +
-                "interface design, knowledge about such interactions can be critical to designing a\n" +
-                "powerful, intuitive and ultimately helpful user interface\n\nPage 1");
-        pages.add("Eye tracking began in the late 1800s with mechanical devices that tracked light reflection\n" +
-                "patterns or even materials directly embedded in the cornea. With the growth of\n" +
-                "photography and video recording technology, far more reliable and less invasive means\n" +
-                "were developed to simply observe a user's eye motions during long periods of activity.\n" +
-                "These recordings would then be analyzed manually, often on a painstaking frame-by-frame\n" +
-                "basis, generating mountains of data to analyze. The task was daunting and even in a\n" +
-                "perfectly performed experiment, the data could very easily defy all attempts at\n" +
-                "understanding.\n\nPage 2");
-        pages.add("The growth of computing technology eventually eased the data analysis\n" +
-                "task to the point of feasibility, and eye-tracking experiments became more popular, and\n" +
-                "devices for incorporating eye gaze data into psychological and medial studies began to\n" +
-                "appear. It is only recently, however, that computing power and video recording capability\n" +
-                "have become inexpensive and powerful enough to cross the gap into the demanding, realtime\n" +
-                "world of interface design. It is this frontier of the eye-tracking field that our project\n" +
-                "seeks to explore. (For a detailed history of eye-tracking research, see [3]).\n\nPage 3");
-        pages.add("Eye tracking devices have historically fallen into two categories. The first is passive, and\n" +
-                "focused on detecting the gaze of the user relative to the rest of the world and in particular\n" +
-                "what elements of the visible field are currently being focused upon. The second is more\n" +
-                "active, and considers the eye not as simply a means of observation, but a means of control\n" +
-                "as well. We think that a device capable of identifying deliberate movements of the eye area\n" +
-                "(pupils, eyelids and eyebrows), we can provide a new means of interaction that could\n" +
-                "replace or complement more standard interfaces.\n\nPage 4");
+
     }
 
     /**
@@ -110,6 +84,8 @@ public class PageFragment extends Fragment {
         eyeGestureParser = new EyeGestureParser();
         parentViewModel = new ViewModelProvider(requireActivity()).get(ParentViewModel.class);
         gazeTrackerHelper = parentViewModel.getTracker().getValue();
+        settingsManager = parentViewModel.getSettingsManager().getValue();
+        reader = parentViewModel.getBookReader();
 
     }
 
@@ -128,8 +104,8 @@ public class PageFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        binding.pageTextView.setText(pages.get(0));
+        binding.pageTextView.setText(retrievePageFromReader(currentPageIndex));
+        binding.pageTextView.setTextSize(settingsManager.getFontSize());
 
     }
 
@@ -138,9 +114,10 @@ public class PageFragment extends Fragment {
      */
     public void nextPage() {
 
-        if(currentPageIndex < pages.size() - 1) {
+        // TODO: add OutOfPagesException
+        if(currentPageIndex < 100) {
             currentPageIndex++;
-            binding.pageTextView.setText(pages.get(currentPageIndex));
+            binding.pageTextView.setText(retrievePageFromReader(currentPageIndex));
         }
 
     }
@@ -150,10 +127,29 @@ public class PageFragment extends Fragment {
      */
     public void previousPage() {
 
-        if(currentPageIndex > 0) {
+        if(currentPageIndex > 1) {
             currentPageIndex--;
-            binding.pageTextView.setText(pages.get(currentPageIndex));
+            binding.pageTextView.setText(retrievePageFromReader(currentPageIndex));
         }
+
+    }
+
+    /**
+     * Retrieves content at PageIndex
+     * @param index
+     * @return
+     */
+    public String retrievePageFromReader(int index) {
+        String content = "";
+
+        try {
+            BookSection bookSection = reader.readSection(index);
+            content = bookSection.getSectionTextContent();
+        } catch(OutOfPagesException | ReadingException readingError) {
+            Log.w("Reading Error", readingError);
+        }
+
+        return content;
 
     }
 }

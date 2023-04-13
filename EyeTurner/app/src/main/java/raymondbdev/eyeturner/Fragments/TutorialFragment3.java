@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 
 import camp.visual.gazetracker.callback.GazeCallback;
 import camp.visual.gazetracker.callback.UserStatusCallback;
-import raymondbdev.eyeturner.Model.EyeGesture;
-import raymondbdev.eyeturner.Model.EyeGestureParser;
 import raymondbdev.eyeturner.Model.GazeTrackerHelper;
 import raymondbdev.eyeturner.Model.ParentViewModel;
 import raymondbdev.eyeturner.R;

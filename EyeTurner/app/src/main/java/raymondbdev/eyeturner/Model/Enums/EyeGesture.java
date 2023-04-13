@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Model;
+package raymondbdev.eyeturner.Model.Enums;
 
 public enum EyeGesture {
     LOOK_UP,

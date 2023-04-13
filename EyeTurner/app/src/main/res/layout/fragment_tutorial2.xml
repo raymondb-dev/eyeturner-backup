@@ -12,20 +12,22 @@
 
         <TextView
             android:id="@+id/downGestureText"
-            android:layout_width="239dp"
-            android:layout_height="26dp"
+            android:layout_width="255dp"
+            android:layout_height="29dp"
             android:layout_marginStart="40dp"
+            android:fontFamily="serif"
             android:text="Performed &quot;Look Down&quot; Gesture x 3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.754" />
+            app:layout_constraintVertical_bias="0.747" />
 
         <TextView
             android:id="@+id/upGestureText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
+            android:fontFamily="serif"
             android:text="Performed &quot;Look Up&quot; Gesture x 3"
             app:layout_constraintBottom_toTopOf="@+id/downGestureText"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +48,7 @@
             android:id="@+id/upCountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif"
             android:text="0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@+id/downGestureText"
@@ -59,6 +62,7 @@
             android:id="@+id/downCountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif"
             android:text="0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
