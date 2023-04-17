@@ -20,11 +20,6 @@ import raymondbdev.eyeturner.Model.SettingsManager;
 import raymondbdev.eyeturner.R;
 import raymondbdev.eyeturner.databinding.FragmentSettingsBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#} factory method to
- * create an instance of this fragment.
- */
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;

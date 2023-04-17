@@ -223,7 +223,7 @@ public class LibraryFragment extends Fragment implements PickiTCallbacks {
     public void PickiTonCompleteListener(String path, boolean wasDriveFile, boolean wasUnknownProvider, boolean wasSuccessful, String Reason) {
         Log.i("File Opened", path);
         Reader reader = parentViewModel.getBookReader();
-        reader.setMaxContentPerSection(500);
+        reader.setMaxContentPerSection(1200);
         reader.setIsIncludingTextContent(true);
 
         try {

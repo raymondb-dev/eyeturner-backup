@@ -2,53 +2,38 @@ package raymondbdev.eyeturner.Activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import com.github.mertakdut.BookSection;
-import com.github.mertakdut.Reader;
-import com.github.mertakdut.exception.OutOfPagesException;
-import com.github.mertakdut.exception.ReadingException;
-import com.google.android.material.snackbar.Snackbar;
+import android.os.Vibrator;
+import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Vibrator;
-import android.provider.OpenableColumns;
-import android.provider.Settings;
-import android.util.Log;
-import android.view.View;
-
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import camp.visual.gazetracker.GazeTracker;
-import camp.visual.gazetracker.constant.UserStatusOption;
-import raymondbdev.eyeturner.Fragments.PageFragment;
+import com.github.mertakdut.Reader;
+import com.google.android.material.snackbar.Snackbar;
+
 import raymondbdev.eyeturner.Model.GazeTrackerHelper;
 import raymondbdev.eyeturner.Model.ParentViewModel;
 import raymondbdev.eyeturner.Model.SettingsManager;
 import raymondbdev.eyeturner.R;
 import raymondbdev.eyeturner.databinding.ActivityMainBinding;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
 /**
  * Library Page / Home Page for Application
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
     private ParentViewModel parentViewModel;
 
