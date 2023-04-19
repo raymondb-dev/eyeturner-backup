@@ -4,24 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#C8AB92"
+    android:foregroundTint="#E64A19"
     tools:context=".Fragments.SettingsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:foregroundTint="#774C4C">
 
         <TextView
             android:id="@+id/fontSizeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
+            android:layout_marginStart="44dp"
             android:fontFamily="serif"
-            android:text="Font Size: "
+            android:text="FONT SIZE:"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/colourModeText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.807" />
+            app:layout_constraintVertical_bias="0.805" />
 
         <TextView
             android:id="@+id/colourModeText"
@@ -30,7 +33,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginBottom="324dp"
             android:fontFamily="serif"
-            android:text="Colour Mode:"
+            android:text="DARK MODE:"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -61,6 +64,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.242"
             app:layout_constraintStart_toEndOf="@+id/colourModeText" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonReturn"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:backgroundTint="#854402"
+            android:fontFamily="serif"
+            android:text="@string/return_to_library_button"
+            android:textColor="#E3E3E3"
+            app:cornerRadius="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

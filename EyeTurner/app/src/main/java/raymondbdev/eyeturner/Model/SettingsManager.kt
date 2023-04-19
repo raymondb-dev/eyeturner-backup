@@ -4,45 +4,59 @@ import raymondbdev.eyeturner.Model.Enums.ColourMode
 
 class SettingsManager {
     private var colourMode = ColourMode.LIGHT_MODE
-    private val availableSizes = arrayOf(8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24)
-    private var sizeIndex = 4
+    private val availableSizes = arrayOf(14, 18, 20, 24, 30)
+    private val availableStringSizes = arrayOf(2000, 1600, 1200, 800, 600)
+    private var sizeIndex = 0
 
-    // TODO: convert font size to relative
+    var maxStringSize: Int = 2500
+        get() = availableStringSizes[sizeIndex]
 
-    val fontSize: Int
+    var fontSize: Int = 14
         get() = availableSizes[sizeIndex]
 
     fun getColourMode(): String? {
-        if (colourMode == ColourMode.LIGHT_MODE) {
-            return "Light"
+
+        return if (colourMode == ColourMode.LIGHT_MODE) {
+            "Light"
         } else if (colourMode == ColourMode.DARK_MODE) {
-            return "Dark"
+            "Dark"
+        } else {
+            null
         }
-        return null
+
     }
 
     fun switchColourMode() {
-        colourMode = if (colourMode == ColourMode.DARK_MODE) {
-            ColourMode.LIGHT_MODE
+        if (colourMode == ColourMode.DARK_MODE) {
+            colourMode = ColourMode.LIGHT_MODE
         } else {
-            ColourMode.DARK_MODE
+            colourMode = ColourMode.DARK_MODE
         }
     }
 
-    val nextFontSize: Int
-        get() {
-            if (sizeIndex == availableSizes.size - 1) {
-                return availableSizes[availableSizes.size - 1]
-            }
-            sizeIndex++
-            return availableSizes[sizeIndex]
+    fun getPreviousFontSize(): Int {
+
+        if (sizeIndex == 0) {
+            return availableSizes[0]
         }
-    val previousFontSize: Int
-        get() {
-            if (sizeIndex == 0) {
-                return availableSizes[0]
-            }
-            sizeIndex--
-            return availableSizes[sizeIndex]
+
+        sizeIndex--
+        fontSize = availableSizes[sizeIndex]
+        maxStringSize = availableStringSizes[sizeIndex]
+
+        return fontSize
+    }
+
+    fun getNextFontSize(): Int {
+
+        if (sizeIndex == availableSizes.size - 1) {
+            return availableSizes[availableSizes.size - 1]
         }
+
+        sizeIndex++
+        fontSize = availableSizes[sizeIndex]
+        maxStringSize = availableStringSizes[sizeIndex]
+
+        return fontSize
+    }
 }

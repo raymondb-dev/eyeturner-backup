@@ -8,41 +8,43 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/default_background">
+
+        <ImageView
+            android:id="@+id/tutorialImage"
+            android:layout_width="380dp"
+            android:layout_height="380dp"
+            app:srcCompat="@drawable/updownturntutorial"
+            app:layout_constraintBottom_toTopOf="@+id/upGestureText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.516"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.644" />
 
         <TextView
             android:id="@+id/downGestureText"
             android:layout_width="255dp"
             android:layout_height="29dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginBottom="48dp"
             android:fontFamily="serif"
             android:text="Performed &quot;Look Down&quot; Gesture x 3"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.747" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/upGestureText"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
+            android:layout_marginStart="52dp"
             android:fontFamily="serif"
             android:text="Performed &quot;Look Up&quot; Gesture x 3"
             app:layout_constraintBottom_toTopOf="@+id/downGestureText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.822" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="297dp"
-            android:layout_height="283dp"
-            android:src="@drawable/smartphone_icon"
-            app:layout_constraintBottom_toTopOf="@+id/upGestureText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintVertical_bias="0.901" />
 
         <TextView
             android:id="@+id/upCountText"
@@ -55,7 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toEndOf="@+id/upGestureText"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/tutorialImage"
             app:layout_constraintVertical_bias="0.431" />
 
         <TextView

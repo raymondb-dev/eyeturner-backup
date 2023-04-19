@@ -1,4 +1,5 @@
 package raymondbdev.eyeturner.Model
 
-class StoredBook {
-}
+import android.graphics.Bitmap
+
+class StoredBook(val bookName: String, val bookPath: String, val pageNumber: Int, val image: Bitmap)

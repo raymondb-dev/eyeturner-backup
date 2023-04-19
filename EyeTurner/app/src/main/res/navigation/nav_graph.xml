@@ -40,19 +40,12 @@
         <action
             android:id="@+id/action_completeTutorial2"
             app:destination="@id/tutorial3" />
-        <action
-            android:id="@+id/action_tutorial2_to_FirstFragment"
-            app:destination="@id/libraryFragment" />
     </fragment>
     <fragment
         android:id="@+id/pageFragment"
         android:name="raymondbdev.eyeturner.Fragments.PageFragment"
         android:label="fragment_page"
-        tools:layout="@layout/fragment_page" >
-        <action
-            android:id="@+id/PageToLibrary_Transition"
-            app:destination="@id/libraryFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_page" />
     <fragment
         android:id="@+id/tutorial3"
         android:name="raymondbdev.eyeturner.Fragments.TutorialFragment3"
@@ -66,18 +59,19 @@
         android:id="@+id/settingsFragment"
         android:name="raymondbdev.eyeturner.Fragments.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
-        <action
-            android:id="@+id/SettingsToLibrary_Transition"
-            app:destination="@id/libraryFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/searchFragment"
         android:name="raymondbdev.eyeturner.Fragments.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="raymondbdev.eyeturner.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
         <action
-            android:id="@+id/SearchToLibrary_Transition"
+            android:id="@+id/action_splashScreenFragment_to_libraryFragment"
             app:destination="@id/libraryFragment" />
     </fragment>
 </navigation>

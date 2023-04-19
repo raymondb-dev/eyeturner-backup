@@ -6,69 +6,80 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.TutorialFragment1">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/default_background">
+
+        <ImageView
+            android:id="@+id/tutorialImage"
+            android:layout_width="380dp"
+            android:layout_height="380dp"
+            android:layout_centerHorizontal="true"
+            android:baselineAlignBottom="false"
+            app:srcCompat="@drawable/leftrightturntutorial"
+            tools:layout_editor_absoluteX="15dp"
+            tools:layout_editor_absoluteY="4dp" />
+
+        <TextView
+            android:id="@+id/lookOutsideText"
+            android:layout_below="@id/tutorialImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="44dp"
+            android:foregroundGravity="center_vertical|center_horizontal"
+            android:gravity="center"
+            android:text="@string/look_outside_text"
+            android:textAppearance="@style/TextStyle"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/rightGestureText"
-            android:layout_width="216dp"
-            android:layout_height="22dp"
-            android:layout_marginStart="56dp"
+            android:layout_width="267dp"
+            android:layout_height="27dp"
+            android:layout_below="@id/lookOutsideText"
+            android:layout_centerHorizontal="true"
             android:fontFamily="serif"
-            android:text="Perform &quot;Look Right&quot; gesture x 3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.864" />
-
-        <TextView
-            android:id="@+id/leftGestureText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:fontFamily="serif"
-            android:text="Performed &quot;Look Left&quot; Gesture x 3"
-            app:layout_constraintBottom_toTopOf="@+id/rightGestureText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.831" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="297dp"
-            android:layout_height="283dp"
-            android:src="@drawable/smartphone_icon"
-            app:layout_constraintBottom_toTopOf="@+id/leftGestureText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/leftCountText"
-            android:layout_width="22dp"
-            android:layout_height="28dp"
-            android:fontFamily="serif"
-            android:text="0"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toTopOf="@+id/rightGestureText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toEndOf="@+id/leftGestureText"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.489" />
+            android:gravity="center"
+            android:text="@string/perform_look_right_text" />
 
         <TextView
             android:id="@+id/rightCountText"
+            android:layout_below="@id/lookOutsideText"
+            android:layout_toEndOf="@id/leftGestureText"
             android:layout_width="20dp"
             android:layout_height="27dp"
             android:fontFamily="serif"
+            android:gravity="center"
             android:text="0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rightGestureText"
-            app:layout_constraintTop_toBottomOf="@+id/leftGestureText" />
+            tools:layout_editor_absoluteX="305dp"
+            tools:layout_editor_absoluteY="512dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/leftGestureText"
+            android:layout_width="267dp"
+            android:layout_height="27dp"
+            android:layout_below="@id/rightGestureText"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/perform_look_left_text"
+            tools:layout_editor_absoluteX="36dp"
+            tools:layout_editor_absoluteY="497dp" />
+
+        <TextView
+            android:id="@+id/leftCountText"
+            android:layout_below="@id/rightGestureText"
+            android:layout_toEndOf="@id/leftGestureText"
+            android:layout_width="20dp"
+            android:layout_height="27dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="0"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:layout_editor_absoluteX="330dp"
+            tools:layout_editor_absoluteY="485dp" />
+
+    </RelativeLayout>
 </FrameLayout>

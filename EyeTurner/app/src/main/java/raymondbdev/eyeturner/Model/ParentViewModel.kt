@@ -7,7 +7,6 @@ import android.os.Vibrator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.mertakdut.Reader
 
 /**
  * Wrapper Class which allows us to access persistive objects between fragments.
@@ -15,23 +14,26 @@ import com.github.mertakdut.Reader
 class ParentViewModel : ViewModel() {
     private val mutableGazeTrackerHelper = MutableLiveData<GazeTrackerHelper>()
     private val mutableSettingsManager = MutableLiveData<SettingsManager>()
-    private val mutableBookReader = MutableLiveData<Reader>()
+    private val mutableReadingTracker = MutableLiveData<ReadingTracker>()
     private val mutableVibrator = MutableLiveData<Vibrator>()
     private val mutableContentResolver = MutableLiveData<ContentResolver>()
+
+    val tracker: GazeTrackerHelper?
+        get() = mutableGazeTrackerHelper.value
+
+    val settingsManager: SettingsManager?
+        get() = mutableSettingsManager.value
+
+    val readingTracker: ReadingTracker?
+        get() = mutableReadingTracker.value
 
     fun setTracker(helper: GazeTrackerHelper) {
         mutableGazeTrackerHelper.value = helper
     }
 
-    val tracker: LiveData<GazeTrackerHelper>
-        get() = mutableGazeTrackerHelper
-
     fun setSettingsManager(manager: SettingsManager) {
         mutableSettingsManager.value = manager
     }
-
-    val settingsManager: LiveData<SettingsManager>
-        get() = mutableSettingsManager
 
     fun setVibrator(vibrator: Vibrator) {
         mutableVibrator.value = vibrator
@@ -43,12 +45,9 @@ class ParentViewModel : ViewModel() {
         }
     }
 
-    fun setBookReader(item: Reader) {
-        mutableBookReader.value = item
+    fun setReadingHelper(helper: ReadingTracker) {
+        mutableReadingTracker.value = helper
     }
-
-    val bookReader: Reader?
-        get() = mutableBookReader.value
 
     fun getMutableContentResolver(): ContentResolver? {
         return mutableContentResolver.value

@@ -5,26 +5,27 @@ import com.github.mertakdut.Reader
 import com.github.mertakdut.exception.OutOfPagesException
 import com.github.mertakdut.exception.ReadingException
 import nl.siegmann.epublib.domain.Book
+import nl.siegmann.epublib.domain.Resource
 import nl.siegmann.epublib.epub.EpubReader
 import java.io.FileInputStream
 import java.io.InputStream
 
-class ReadingHelper(newReader: Reader) {
-    var reader: Reader? = null
+class ReadingTracker(newReader: Reader) {
     var book: Book? = null
-    var currentPageIndex = 1
+    var reader: Reader? = null
+    var currentPageIndex: Int = 1
 
     init {
         reader = newReader
     }
 
-    fun getBookFromFile(fileName: String) {
+    fun setBookFromFile(fileName: String) {
         var epubReader = EpubReader()
         book = epubReader.readEpub(FileInputStream(fileName))
     }
 
-    fun getCoverImage(): InputStream? {
-        return book?.coverImage?.inputStream
+    fun getCoverImage(): ByteArray? {
+        return book?.coverImage!!.data
     }
 
     fun getCurrentPage(): String {

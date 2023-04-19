@@ -7,14 +7,21 @@ import camp.visual.gazetracker.callback.GazeCallback
 import camp.visual.gazetracker.callback.InitializationCallback
 import camp.visual.gazetracker.callback.UserStatusCallback
 import camp.visual.gazetracker.constant.InitializationErrorType
+import camp.visual.gazetracker.constant.UserStatusOption
+import camp.visual.gazetracker.gaze.GazeInfo
+import raymondbdev.eyeturner.Model.Enums.EyeGesture
 import java.lang.ref.WeakReference
 
 class GazeTrackerHelper(context: Context) {
-    private val devKey = "dev_9cnwers1nq1kqt1rvxr5na2vfseqer25hlmc0vbh"
+    private val devKey = "dev_e6fixnnc0ecu5dlchqtm318pr5h45h3s8cgsg4ew"
     private val mContext: WeakReference<Context>
     private var gazeCallback: GazeCallback? = null
     private var userStatusCallback: UserStatusCallback? = null
     private var gazeTracker: GazeTracker? = null
+    private var eyeGestureParser = EyeGestureParser()
+
+    private var touchMode: Boolean = false
+
     private val initializationCallback =
         InitializationCallback { gazeTracker: GazeTracker?, error: InitializationErrorType ->
             if (gazeTracker != null) {
@@ -24,10 +31,12 @@ class GazeTrackerHelper(context: Context) {
             }
         }
 
-    // TODO: Add
-
     init {
         mContext = WeakReference(context)
+    }
+
+    fun calculateEyeGesture(gazeInfo: GazeInfo): EyeGesture {
+        return eyeGestureParser.calculateEyeGesture(gazeInfo)
     }
 
     fun setUserStatusCallback(userStatusCallback: UserStatusCallback?) {
@@ -40,10 +49,13 @@ class GazeTrackerHelper(context: Context) {
 
     fun initGazeTracker() {
         // GazeTracker can react on Blink action.
-        // UserStatusOption options = new UserStatusOption();
-        // options.useBlink();
-        // GazeTracker.initGazeTracker(mContext.get(), devKey, initializationCallback, options);
-        GazeTracker.initGazeTracker(mContext.get(), devKey, initializationCallback)
+         val options = UserStatusOption();
+         options.useBlink();
+
+        if(!touchMode) {
+            GazeTracker.initGazeTracker(mContext.get(), devKey, initializationCallback, options)
+        }
+
     }
 
     private fun successfulInitialization(gazeTracker: GazeTracker) {
@@ -58,8 +70,9 @@ class GazeTrackerHelper(context: Context) {
     }
 
     private fun failedInitialization(error: InitializationErrorType) {
+
         var err = ""
-        Log.w("SeeSo Error Type: ", error.toString())
+
         err = if (error == InitializationErrorType.ERROR_INIT) {
             // When initialization is failed
             "Initialization failed."
@@ -71,12 +84,32 @@ class GazeTrackerHelper(context: Context) {
             // It can be caused by several reasons(i.e. Out of memory).
             "Gaze Initialization library failed."
         }
+
         Log.w("SeeSo", "Initialization Error: $err")
         initGazeTracker()
     }
 
     fun deinitGazeTracker() {
-        GazeTracker.deinitGazeTracker(gazeTracker)
-        gazeTracker = null
+        if(!touchMode && gazeTracker != null) {
+            GazeTracker.deinitGazeTracker(gazeTracker)
+            gazeTracker = null
+        }
+    }
+
+    fun exists(): Boolean {
+        if(gazeTracker != null) {
+            return true
+        }
+
+        return false
+    }
+
+    fun stopTracking() {
+        gazeTracker?.stopTracking()
+    }
+
+    fun startTracking() {
+        this.gazeTracker!!.setGazeCallback(gazeCallback)
+        this.gazeTracker!!.startTracking()
     }
 }

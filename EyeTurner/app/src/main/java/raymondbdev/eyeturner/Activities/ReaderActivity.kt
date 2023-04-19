@@ -1,4 +1,6 @@
 package raymondbdev.eyeturner.Activities
 
-class ReaderActivity {
+import androidx.appcompat.app.AppCompatActivity
+
+class ReaderActivity: AppCompatActivity() {
 }

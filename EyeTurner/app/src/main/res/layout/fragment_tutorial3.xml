@@ -8,21 +8,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/default_background">
 
         <TextView
             android:id="@+id/blinkGestureText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif"
             android:text="Performed &quot;Blink&quot; Gesture"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/blinkCountText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.723" />
+            app:layout_constraintVertical_bias="0.726" />
 
         <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/imageView"
+            android:id="@+id/tutorialImage"
             android:layout_width="297dp"
             android:layout_height="283dp"
             android:src="@drawable/blinking_gif"
@@ -30,6 +32,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/blinkCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:text="0"
+            android:textAppearance="@style/TextStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tutorialImage"
+            app:layout_constraintVertical_bias="0.377" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

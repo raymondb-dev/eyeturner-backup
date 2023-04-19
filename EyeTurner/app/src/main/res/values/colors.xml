@@ -12,4 +12,11 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+
+    <!-- My Colors -->
+    <color name="default_background">#FFC8AB92</color>
+    <color name="default_button">#FF854402</color>
+    <color name="default_button_text">#FFE3E3E3</color>
+
+
 </resources>

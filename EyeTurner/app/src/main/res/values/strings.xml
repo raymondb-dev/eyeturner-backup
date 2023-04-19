@@ -7,16 +7,21 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!-- Button Text-->
     <string name="file_button">Add File</string>
     <string name="tutorial_button">Go To Tutorial</string>
-    <string name="tutorial_intro_text">Click for tutorial</string>
+    <string name="return_to_library_button">Return To Library (Look Up)</string>
+    <string name="select_book_button">Select Book (Look Up)</string>
+    <string name="settings_button">Configure Settings (Look Down)</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Tutorial Text -->
+    <string name="look_outside_text">You must look outside of the screen to trigger the gesture</string>
+    <string name="perform_look_up_text">Perform "Look Up" Gesture 3 Times</string>
+    <string name="perform_look_down_text">Perform "Look Down" Gesture 3 Times</string>
+    <string name="perform_look_left_text">Perform "Look Left" Gesture 3 Times</string>
+    <string name="perform_look_right_text">Perform "Look Right" Gesture 3 Times</string>
+    <string name="perform_blink_text">Blink 3 Times</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -31,4 +36,6 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
