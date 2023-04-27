@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Fragments
+package raymondbdev.eyeturner.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -14,9 +14,11 @@ import camp.visual.gazetracker.gaze.GazeInfo
 import raymondbdev.eyeturner.Model.GazeTrackerHelper
 import raymondbdev.eyeturner.Model.ParentViewModel
 import raymondbdev.eyeturner.R
-import raymondbdev.eyeturner.databinding.FragmentTutorial2Binding
 import raymondbdev.eyeturner.databinding.FragmentTutorial3Binding
 
+/**
+ * unused Fragment
+ */
 class TutorialFragment3 : Fragment() {
 
     private var binding: FragmentTutorial3Binding? = null

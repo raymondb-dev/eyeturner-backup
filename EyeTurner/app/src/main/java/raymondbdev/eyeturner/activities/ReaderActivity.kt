@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Activities
+package raymondbdev.eyeturner.activities
 
 import androidx.appcompat.app.AppCompatActivity
 

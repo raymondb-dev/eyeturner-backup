@@ -38,4 +38,11 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="clear_library_button">Clear Library</string>
+    <string name="replay_tutorial">Replay Tutorial</string>
+    <string name="font_size">FONT SIZE:</string>
+    <string name="dark_mode">DARK MODE:</string>
+    <string name="textview">TextView</string>
+    <string name="performed_quot_look_down_quot_gesture_x_3">Performed \"Look Down\" Gesture x 3</string>
+    <string name="performed_quot_look_up_quot_gesture_x_3">Performed \"Look Up\" Gesture x 3</string>
 </resources>

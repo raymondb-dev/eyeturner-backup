@@ -1,6 +1,6 @@
 package raymondbdev.eyeturner.Model
 
-import raymondbdev.eyeturner.Model.Enums.ColourMode
+import raymondbdev.eyeturner.Model.enums.ColourMode
 
 class SettingsManager {
     private var colourMode = ColourMode.LIGHT_MODE

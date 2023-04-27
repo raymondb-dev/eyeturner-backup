@@ -1,17 +1,25 @@
-package raymondbdev.eyeturner.Fragments
+package raymondbdev.eyeturner.fragments
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.bold
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import camp.visual.gazetracker.callback.GazeCallback
 import camp.visual.gazetracker.gaze.GazeInfo
-import raymondbdev.eyeturner.Model.*
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
+import raymondbdev.eyeturner.Model.GazeTrackerHelper
+import raymondbdev.eyeturner.Model.ParentViewModel
+import raymondbdev.eyeturner.Model.ReadingTracker
+import raymondbdev.eyeturner.Model.SettingsManager
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 import raymondbdev.eyeturner.databinding.FragmentPageBinding
+import java.util.regex.Pattern
+
 
 /**
  * A simple [Fragment] subclass.
@@ -73,7 +81,7 @@ class PageFragment : Fragment() {
         // set page content with font size
         binding!!.pageContentText.textSize = settingsManager!!.fontSize.toFloat()
         binding!!.pageContentText.text = readingTracker!!.getCurrentPage()
-        binding!!.pageNumberText.text = readingTracker!!.currentPageIndex.toString()
+        setPageNumber(readingTracker!!.currentPageIndex)
     }
 
     /**
@@ -81,8 +89,8 @@ class PageFragment : Fragment() {
      */
     fun nextPage() {
         requireActivity().runOnUiThread {
-            binding!!.pageContentText.text = readingTracker!!.turnPageRight()
-            binding!!.pageNumberText.text = readingTracker!!.currentPageIndex.toString()
+            setPageContent(readingTracker!!.turnPageRight())
+            setPageNumber(readingTracker!!.currentPageIndex)
         }
     }
 
@@ -91,9 +99,47 @@ class PageFragment : Fragment() {
      */
     fun previousPage() {
         requireActivity().runOnUiThread {
-            binding!!.pageContentText.text = readingTracker!!.turnPageLeft()
-            binding!!.pageNumberText.text = readingTracker!!.currentPageIndex.toString()
+            setPageContent(readingTracker!!.turnPageLeft())
+            setPageNumber(readingTracker!!.currentPageIndex)
         }
+    }
+
+    fun setPageContent(pageContent: String) {
+
+        val modifiedPageContent = SpannableStringBuilder()
+
+        // Find instances of "Chapter x" and makes it bold.
+        val chapterPattern = Pattern.compile("(Chapter (\\d+|\\w+))") // the pattern to search for
+        val chapterMatcher = chapterPattern.matcher(pageContent)
+
+        if(chapterMatcher.find()) {
+            val chapterSplit = pageContent.split(chapterMatcher.group(1)!!)
+            modifiedPageContent.append(chapterSplit[0])
+            modifiedPageContent.bold{ append(chapterMatcher.group(1)!!) }
+            modifiedPageContent.append(chapterSplit[1])
+        } else {
+            modifiedPageContent.append(pageContent)
+        }
+
+        binding!!.pageContentText.text = modifiedPageContent
+    }
+
+    fun setPageNumber(pageNumber: Int) {
+
+        // TODO: use actual font
+        // val defaultTypeface = Typeface.createFromAsset(requireActivity().assets, "font/literata.ttf")
+        val defaultTypeface = null
+
+        // TODO: more sensible in setPageContent
+        if(pageNumber == 1) { // User on Title Page
+            binding!!.pageContentText.textSize = 28F
+            binding!!.pageContentText.setTypeface(defaultTypeface, Typeface.BOLD)
+        } else {
+            binding!!.pageContentText.textSize = settingsManager!!.fontSize.toFloat()
+            binding!!.pageContentText.setTypeface(defaultTypeface, Typeface.NORMAL)
+        }
+
+        binding!!.pageNumberText.text = pageNumber.toString()
     }
 
     /**

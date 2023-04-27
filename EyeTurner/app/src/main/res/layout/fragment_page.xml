@@ -1,55 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.PageFragment">
+    android:background="@color/default_background"
+    tools:context=".fragments.PageFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonReturn"
+        android:layout_width="412dp"
+        android:layout_height="51dp"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="#713900"
+        android:fontFamily="serif"
+        android:text="@string/return_to_library_button"
+        android:textColor="#E3E3E3" />
+
+    <TextView
+        android:id="@+id/pageContentText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/default_background">
+        android:layout_height="wrap_content"
+        android:layout_above="@id/pageNumberText"
+        android:layout_below="@id/buttonReturn"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="serif" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonReturn"
-            android:layout_width="412dp"
-            android:layout_height="51dp"
-            android:backgroundTint="#713900"
-            android:fontFamily="serif"
-            android:text="@string/return_to_library_button"
-            android:textColor="#E3E3E3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/pageNumberText"
+        android:layout_width="17dp"
+        android:layout_height="27dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="1"
+        android:textAppearance="@style/TextStyle"
+        android:textSize="20sp"
+        android:textStyle="bold"
+         />
 
-        <TextView
-            android:id="@+id/pageContentText"
-            android:layout_width="358dp"
-            android:layout_height="612dp"
-            android:fontFamily="serif"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.49"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.495" />
-
-        <TextView
-            android:id="@+id/pageNumberText"
-            android:layout_width="17dp"
-            android:layout_height="27dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="1"
-            android:textAppearance="@style/TextStyle"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.949"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pageContentText" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</RelativeLayout>

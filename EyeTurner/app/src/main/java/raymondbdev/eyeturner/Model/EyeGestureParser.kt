@@ -2,7 +2,7 @@ package raymondbdev.eyeturner.Model
 
 import android.util.Log
 import camp.visual.gazetracker.gaze.GazeInfo
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 
 /**
  * Contains functions for parsing Eye Gestures.

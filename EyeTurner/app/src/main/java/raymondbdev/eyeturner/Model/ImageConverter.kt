@@ -7,7 +7,7 @@ class ImageConverter {
 
     companion object {
         fun byteToBitmap(b: ByteArray?): Bitmap? {
-            return if (b == null || b.size == 0) null else BitmapFactory
+            return if (b == null || b.isEmpty()) null else BitmapFactory
                 .decodeByteArray(b, 0, b.size)
         }
     }

@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner;
+package raymondbdev.eyeturner.fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import raymondbdev.eyeturner.R;
 
 /**
  * A simple {@link Fragment} subclass.

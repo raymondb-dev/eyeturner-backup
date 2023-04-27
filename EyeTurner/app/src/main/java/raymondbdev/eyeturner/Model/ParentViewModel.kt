@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -39,21 +38,23 @@ class ParentViewModel : ViewModel() {
         mutableVibrator.value = vibrator
     }
 
-    fun vibrate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { // vibrate API only available
-            mutableVibrator.value!!.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
-        }
+    fun setMutableContentResolver(contentResolver: ContentResolver) {
+        mutableContentResolver.value = contentResolver
     }
 
     fun setReadingHelper(helper: ReadingTracker) {
         mutableReadingTracker.value = helper
     }
 
+    fun vibrate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { // vibrate API only available
+            mutableVibrator.value!!.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+        }
+    }
+
     fun getMutableContentResolver(): ContentResolver? {
         return mutableContentResolver.value
     }
 
-    fun setMutableContentResolver(contentResolver: ContentResolver) {
-        mutableContentResolver.value = contentResolver
-    }
+
 }

@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Activities
+package raymondbdev.eyeturner.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,15 +15,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.github.mertakdut.Reader
-import raymondbdev.eyeturner.Model.GazeTrackerHelper
-import raymondbdev.eyeturner.Model.ParentViewModel
-import raymondbdev.eyeturner.Model.ReadingTracker
-import raymondbdev.eyeturner.Model.SettingsManager
+import raymondbdev.eyeturner.Model.*
 import raymondbdev.eyeturner.R
 import raymondbdev.eyeturner.databinding.ActivityMainBinding
 
 /**
- * Permissions adapted from SeeSo API Quick Start (Java) Guide:
+ * Permissions code adapted from SeeSo API Quick Start (Java) Guide:
  * https://docs.seeso.io/nonversioning/quick-start/android-quick-start/
  */
 class MainActivity: AppCompatActivity() {
@@ -47,12 +44,15 @@ class MainActivity: AppCompatActivity() {
 
         gazeTrackerHelper = GazeTrackerHelper(applicationContext)
 
+        val reader = Reader()
+        val libraryDBHelper = LibraryDBHelper(this)
+
         // Set up ViewModel to pass use single instances between
         parentViewModel = ViewModelProvider(this).get(ParentViewModel::class.java)
         parentViewModel!!.setTracker(gazeTrackerHelper!!)
         parentViewModel!!.setSettingsManager(SettingsManager())
         parentViewModel!!.setVibrator(this.getSystemService(Vibrator::class.java))
-        parentViewModel!!.setReadingHelper(ReadingTracker(Reader()))
+        parentViewModel!!.setReadingHelper(ReadingTracker(reader, libraryDBHelper))
         parentViewModel!!.setMutableContentResolver(contentResolver)
 
         binding = ActivityMainBinding.inflate(layoutInflater)

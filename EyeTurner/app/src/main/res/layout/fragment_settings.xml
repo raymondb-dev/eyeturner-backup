@@ -1,83 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#C8AB92"
     android:foregroundTint="#E64A19"
-    tools:context=".Fragments.SettingsFragment">
+    tools:context=".fragments.SettingsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonReturn"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foregroundTint="#774C4C">
+        android:layout_height="51dp"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="#854402"
+        android:fontFamily="serif"
+        android:text="@string/return_to_library_button"
+        android:textColor="#E3E3E3"
+        app:cornerRadius="0dp" />
 
-        <TextView
-            android:id="@+id/fontSizeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:fontFamily="serif"
-            android:text="FONT SIZE:"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/colourModeText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.805" />
+    <TextView
+        android:id="@+id/fontSizeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="serif"
+        android:text="@string/font_size"
+        android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/colourModeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginBottom="324dp"
-            android:fontFamily="serif"
-            android:text="DARK MODE:"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/fontSizeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="23dp"
+        android:layout_toEndOf="@id/fontSizeText"
+        android:fontFamily="serif"
+        android:text="t"
+        android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/fontSizeValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text="TextView"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/colourModeValue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.43"
-            app:layout_constraintStart_toEndOf="@+id/fontSizeText"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.807" />
+    <TextView
+        android:id="@+id/colourModeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fontSizeText"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="serif"
+        android:text="@string/dark_mode"
+        android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/colourModeValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="324dp"
-            android:fontFamily="serif"
-            android:text="TextView"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.242"
-            app:layout_constraintStart_toEndOf="@+id/colourModeText" />
+    <TextView
+        android:id="@+id/colourModeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fontSizeValue"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/fontSizeText"
+        android:fontFamily="serif"
+        android:text="t"
+        android:textSize="30sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonReturn"
-            style="@style/ButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="51dp"
-            android:backgroundTint="#854402"
-            android:fontFamily="serif"
-            android:text="@string/return_to_library_button"
-            android:textColor="#E3E3E3"
-            app:cornerRadius="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+
+</RelativeLayout>

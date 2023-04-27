@@ -1,19 +1,13 @@
-package raymondbdev.eyeturner.Fragments
+package raymondbdev.eyeturner.fragments
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
-import android.provider.OpenableColumns
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -21,15 +15,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import camp.visual.gazetracker.callback.GazeCallback
 import camp.visual.gazetracker.gaze.GazeInfo
-import com.github.mertakdut.exception.ReadingException
 import com.hbisoft.pickit.PickiT
 import com.hbisoft.pickit.PickiTCallbacks
-import raymondbdev.eyeturner.Adapters.BookLibraryAdapter
 import raymondbdev.eyeturner.Model.*
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 import raymondbdev.eyeturner.R
+import raymondbdev.eyeturner.adapters.BookCardAdapter
 import raymondbdev.eyeturner.databinding.FragmentLibraryBinding
 
 
@@ -38,24 +32,25 @@ import raymondbdev.eyeturner.databinding.FragmentLibraryBinding
  */
 class LibraryFragment: Fragment(), PickiTCallbacks {
 
-    private var bookGalleryAdapter: BookLibraryAdapter? = null
-
     private var binding: FragmentLibraryBinding? = null
     private var parentViewModel: ParentViewModel? = null
     private var gazeTrackerHelper: GazeTrackerHelper? = null
     private var settingsManager: SettingsManager? = null
-    private var readerInitialised = false
+    private var readingTracker: ReadingTracker? = null
+    private var libraryAdapter: BookCardAdapter? = null
 
-    var libraryGazeCallback = GazeCallback { gazeInfo: GazeInfo? ->
+    private var position: Int = 0
+    private var books: ArrayList<StoredBook>? = null
+
+    private var libraryGazeCallback = GazeCallback { gazeInfo: GazeInfo? ->
         val gesture = gazeTrackerHelper!!.calculateEyeGesture(gazeInfo!!)
 
-//        if (gesture === EyeGesture.LOOK_LEFT) {
-//            getPreviousBook()
-//        } else if (gesture === EyeGesture.LOOK_RIGHT) {
-//            getNextBook()
-//        } else
-        if (gesture === EyeGesture.LOOK_UP) {
-            if (readerInitialised) {
+        if (gesture === EyeGesture.LOOK_LEFT) {
+            getPreviousBook()
+        } else if (gesture === EyeGesture.LOOK_RIGHT) {
+            getNextBook()
+        } else if (gesture === EyeGesture.LOOK_UP) {
+            if (books!!.size > 0) {
                 navigateToFragment(R.id.LibraryToPage_Transition)
             }
         } else if (gesture === EyeGesture.LOOK_DOWN) {
@@ -63,25 +58,23 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
         }
     }
 
-    var openFileResultLauncher = registerForActivityResult(
+    private var openFileResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
-            Log.i("File Opened", data!!.dataString!!)
-
             val getPathOperation = PickiT(requireActivity(), this, requireActivity())
-            getPathOperation.getPath(data.data, Build.VERSION.SDK_INT)
+            getPathOperation.getPath(data!!.data, Build.VERSION.SDK_INT)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.i("LIBRARY_FRAGMENT", "Opened")
         parentViewModel = ViewModelProvider(requireActivity()).get(ParentViewModel::class.java)
         gazeTrackerHelper = parentViewModel!!.tracker
         settingsManager = parentViewModel!!.settingsManager
+        readingTracker = parentViewModel!!.readingTracker
     }
 
     override fun onCreateView(
@@ -102,18 +95,17 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
 
         setupButtons()
-        setupGallery()
+        setupCardList()
 
-        return binding!!.getRoot()
+        return binding!!.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.i("LIBRARY_FRAGMENT", "Closed")
         binding = null
     }
 
-    fun navigateToFragment(transitionId: Int) {
+    private fun navigateToFragment(transitionId: Int) {
         requireActivity().runOnUiThread {
             gazeTrackerHelper!!.stopTracking()
             NavHostFragment.findNavController(this@LibraryFragment)
@@ -121,14 +113,15 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
         }
     }
 
-    fun openFilePicker() {
+    private fun openFilePicker() {
         val selectEBook = Intent(Intent.ACTION_GET_CONTENT)
         selectEBook.type = "application/epub+zip"
         openFileResultLauncher.launch(selectEBook)
     }
 
-    fun setupButtons() {
+    private fun setupButtons() {
         // Setup buttons
+
         binding!!.floatingTutorialButton.setOnClickListener { view ->
             navigateToFragment(R.id.LibraryToTutorial_Transition)
         }
@@ -136,79 +129,109 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
         binding!!.buttonAddFile.setOnClickListener { view ->
             openFilePicker()
         }
-    }
 
-    fun setupGallery() {
-        // BookLibraryAdapter(requireContext(), db.getListOfBooks())
-        bookGalleryAdapter = BookLibraryAdapter(requireContext(), ArrayList())
-        binding!!.bookGallery.adapter = bookGalleryAdapter
-        binding!!.bookGallery.visibility = GONE
-    }
-
-    fun getPreviousBook() {
-        val previousBook = bookGalleryAdapter!!.getPreviousItem()
-
-        if(previousBook != null) {
-            setBookThumbnail(previousBook.image)
-        }
-
-    }
-
-    fun getNextBook() {
-        val nextBook = bookGalleryAdapter!!.getNextItem()
-
-        if(nextBook != null) {
-            setBookThumbnail(nextBook.image)
+        binding!!.clearLibraryButton.setOnClickListener { view ->
+            clearLibrary()
         }
     }
 
-    fun setBookThumbnail(bitmap: Bitmap) {
+    private fun setupCardList() {
+        books = readingTracker!!.getBooksFromDB()
+
+        // sets up default book
+        if(books!!.isEmpty()) {
+            binding!!.buttonSelectBook.visibility = INVISIBLE
+        } else {
+            // we set the most recent book as the default
+            setSelectedBook(0)
+        }
+
+        val horizontalLayout = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val adapter = BookCardAdapter(requireContext(), books!!)
+
+        libraryAdapter = adapter
+        binding!!.libraryDisplay.layoutManager = horizontalLayout
+        binding!!.libraryDisplay.adapter = adapter
+    }
+
+    private fun getPreviousBook() {
+        if(position > 0) {
+            position--
+            setSelectedBook(position)
+        }
+    }
+
+    private fun getNextBook() {
+        val count = libraryAdapter!!.itemCount
+        if(position < count - 1) {
+            position++
+            setSelectedBook(position)
+        }
+    }
+
+    private fun setSelectedBook(arrayPosition: Int) {
+
+        val book = books!![arrayPosition]
+        readingTracker!!.bookInfo = book
+        readingTracker!!.currentPageIndex = book.pageNumber
+        readingTracker!!.configureReader(book.bookPath, settingsManager!!.maxStringSize)
+
         requireActivity().runOnUiThread {
-            binding!!.selectedImage.setImageBitmap(bitmap)
+            binding!!.buttonSelectBook.visibility = VISIBLE
+            binding!!.selectedImage.setImageBitmap(book.image)
+            binding!!.currentBookText.text = book.bookName
+            binding!!.libraryDisplay.smoothScrollToPosition(position)
         }
+    }
+
+    private fun clearLibrary() {
+        readingTracker!!.clearDB()
+
+        // resets to initial state.
+        setupCardList()
+        binding!!.buttonSelectBook.visibility = GONE
+        binding!!.selectedImage.setImageResource(R.drawable.youhavenobooks)
+        binding!!.currentBookText.text = ""
     }
 
     /**
      * Triggers upon successful file opening. Stores book in database
      */
     override fun PickiTonCompleteListener(
-        path: String,
+        bookPath: String,
         wasDriveFile: Boolean,
         wasUnknownProvider: Boolean,
         wasSuccessful: Boolean,
         Reason: String
     ) {
         // TODO: Handle case when book is already stored
-        Log.i("File Successfully Opened", path)
+        Log.i("File Successfully Opened", bookPath)
 
-        // retrieving image from selected ebook
-        val readingTracker = parentViewModel!!.readingTracker
+        // retrieving metadata from book
+        val bookName = readingTracker!!.setBookFromFile(bookPath)
+        val bookThumbnail = readingTracker!!.getCoverImage()!!
 
-        readingTracker!!.setBookFromFile(path)
-        val imageByteArray = readingTracker.getCoverImage()
-        val imageBitmap = ImageConverter.byteToBitmap(imageByteArray)
-        setBookThumbnail(imageBitmap!!)
-
-        val storedBook = StoredBook("Book", path, 1, imageBitmap)
-        bookGalleryAdapter!!.addItem(storedBook)
-
-        // configuring reader
-        val reader = readingTracker.reader
-        reader!!.setMaxContentPerSection(settingsManager!!.maxStringSize)
-        reader.setIsIncludingTextContent(true)
-
-        readerInitialised = try {
-            reader.setFullContent(path)
-
-            // TODO: clean up
-            binding!!.buttonSelectBook.visibility = VISIBLE
-            binding!!.bookGallery.visibility = VISIBLE
-            true
-        } catch (e: ReadingException) {
-            Toast.makeText(requireContext(), "EPUB File supplied is invalid", Toast.LENGTH_SHORT).show()
-            false
+        // add books to library and set thumbnail
+        if(readingTracker!!.bookExistsDB(bookName)) {
+            readingTracker!!.bookInfo = readingTracker!!.getBook(bookName)!!
+            return
         }
 
+        // adds book to library and configures reader
+        readingTracker!!.addBookToDB(bookName, bookPath, bookThumbnail, System.currentTimeMillis())
+        readingTracker!!.bookInfo = readingTracker!!.getBook(bookName)
+        setupCardList()
+
+        // Reader is configured.
+        if(readingTracker!!.configureReader(bookPath, settingsManager!!.maxStringSize)) {
+            setSelectedBook(0)
+        } else {
+            Toast.makeText(requireContext(), "EPUB File supplied is invalid", Toast.LENGTH_SHORT).show()
+        }
+
+        Log.i("COMPLETED", "PROCESSING BOOK")
+
+        // onCreate(this)
     }
 
     override fun PickiTonUriReturned() {}

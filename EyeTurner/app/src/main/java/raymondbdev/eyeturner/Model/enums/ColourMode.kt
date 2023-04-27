@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Model.Enums
+package raymondbdev.eyeturner.Model.enums
 
 enum class ColourMode {
     LIGHT_MODE,

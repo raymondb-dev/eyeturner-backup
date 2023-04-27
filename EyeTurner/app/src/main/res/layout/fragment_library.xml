@@ -1,103 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background"
-    tools:context=".Fragments.LibraryFragment">
-
-
-    <Gallery
-        android:id="@+id/bookGallery"
-        android:layout_width="403dp"
-        android:layout_height="165dp"
-        android:layout_marginBottom="28dp"
-        android:animationDuration="2000"
-        android:padding="10dp"
-        android:spacing="5dp"
-        android:unselectedAlpha="50"
-        app:layout_constraintBottom_toTopOf="@+id/button_add_file"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_add_file"
-        android:layout_width="138dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="100dp"
-        android:background="@color/default_button"
-        android:fontFamily="serif"
-        android:text="@string/file_button"
-        android:textColor="@color/default_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+    tools:context=".fragments.LibraryFragment">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSelectBook"
         style="@style/ButtonStyle"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:fontFamily="serif"
         android:text="@string/select_book_button"
         android:textColor="@color/default_button_text"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/currentBookText"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/buttonSelectBook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:scrollbarSize="14dp"
+        android:textAppearance="@style/TextStyle"
+        android:textSize="14sp"
+
+        tools:layout_editor_absoluteX="206dp"
+        tools:layout_editor_absoluteY="82dp" />
+
+    <ImageView
+        android:id="@+id/selectedImage"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/currentBookText"
+        android:layout_width="183dp"
+        android:layout_height="232dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/youhavenobooks"
+        tools:layout_editor_absoluteX="114dp"
+        tools:layout_editor_absoluteY="101dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/libraryDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@id/selectedImage"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/black"
+        android:clickable="false" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_add_file"
+        style="@style/ButtonStyle"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/libraryDisplay"
+        android:layout_width="138dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/default_button"
+        android:fontFamily="serif"
+        android:text="@string/file_button"
+        android:textColor="@color/default_button_text"
+        tools:layout_editor_absoluteX="136dp"
+        tools:layout_editor_absoluteY="605dp" />
+
+    <Button
+        android:id="@+id/clearLibraryButton"
+        style="@style/ButtonStyle"
+        android:layout_below="@id/button_add_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/clear_library_button"
+        tools:layout_editor_absoluteX="126dp"
+        tools:layout_editor_absoluteY="635dp" />
+
+    <!-- FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingTutorialButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="55dp"
+        android:layout_marginEnd="15dp"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/replay_tutorial"
+        app:backgroundTint="#FFFFFF"
+        app:srcCompat="@android:drawable/ic_dialog_info" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSettings"
         style="@style/ButtonStyle"
+        android:layout_alignParentBottom="true"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:fontFamily="serif"
         android:text="@string/settings_button"
         android:textColor="@color/default_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteY="685dp" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingTutorialButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:backgroundTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="@+id/buttonSettings"
-        app:layout_constraintTop_toTopOf="@+id/buttonSelectBook"
-        app:layout_constraintVertical_bias="0.908"
-        app:srcCompat="@android:drawable/ic_dialog_info"
-        android:contentDescription="Replay Tutorial" />
-
-    <TextView
-        android:id="@+id/currentBookText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:scrollbarSize="14dp"
-        android:textAppearance="@style/TextStyle"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSelectBook" />
-
-    <ImageView
-        android:id="@+id/selectedImage"
-        android:layout_width="183dp"
-        android:layout_height="232dp"
-        android:src="@drawable/youhavenobooks"
-        app:layout_constraintBottom_toTopOf="@+id/bookGallery"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentBookText" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
 
