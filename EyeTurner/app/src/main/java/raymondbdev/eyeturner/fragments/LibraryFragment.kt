@@ -82,14 +82,7 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
         savedInstanceState: Bundle?
     ): View {
 
-        gazeTrackerHelper!!.setGazeCallback(libraryGazeCallback)
-
-        if(gazeTrackerHelper!!.exists()) {
-            gazeTrackerHelper!!.startTracking()
-        } else {
-            // the sole GazeTracker instance is initialised here
-            gazeTrackerHelper!!.initGazeTracker()
-        }
+        setupTracker()
 
         // Inflate the layout for this fragment
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
@@ -119,8 +112,24 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
         openFileResultLauncher.launch(selectEBook)
     }
 
+    private fun setupTracker() {
+        gazeTrackerHelper!!.setGazeCallback(libraryGazeCallback)
+
+        if(gazeTrackerHelper!!.exists()) {
+            gazeTrackerHelper!!.startTracking()
+        } else {
+            // the sole GazeTracker instance is initialised here
+            gazeTrackerHelper!!.initGazeTracker()
+            Toast.makeText(requireContext(), "Loading Eye Tracking", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun setupButtons() {
         // Setup buttons
+
+        binding!!.buttonSelectBook.setOnClickListener {view ->
+            Toast.makeText(requireContext(), "Look Down to access Settings", Toast.LENGTH_SHORT).show()
+        }
 
         binding!!.floatingTutorialButton.setOnClickListener { view ->
             navigateToFragment(R.id.LibraryToTutorial_Transition)
@@ -130,8 +139,12 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
             openFilePicker()
         }
 
-        binding!!.clearLibraryButton.setOnClickListener { view ->
-            clearLibrary()
+//        binding!!.clearLibraryButton.setOnClickListener { view ->
+//            clearLibrary()
+//        }
+
+        binding!!.buttonSettings.setOnClickListener {
+            Toast.makeText(requireContext(), "Look Down to access Settings", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -154,6 +167,16 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
         binding!!.libraryDisplay.adapter = adapter
     }
 
+    private fun clearLibrary() {
+        readingTracker!!.clearDB()
+
+        // resets to initial state.
+        setupCardList()
+        binding!!.buttonSelectBook.visibility = GONE
+        binding!!.selectedImage.setImageResource(R.drawable.youhavenobooks)
+        binding!!.currentBookText.text = ""
+    }
+
     private fun getPreviousBook() {
         if(position > 0) {
             position--
@@ -171,6 +194,7 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
 
     private fun setSelectedBook(arrayPosition: Int) {
 
+        position = arrayPosition
         val book = books!![arrayPosition]
         readingTracker!!.bookInfo = book
         readingTracker!!.currentPageIndex = book.pageNumber
@@ -182,16 +206,6 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
             binding!!.currentBookText.text = book.bookName
             binding!!.libraryDisplay.smoothScrollToPosition(position)
         }
-    }
-
-    private fun clearLibrary() {
-        readingTracker!!.clearDB()
-
-        // resets to initial state.
-        setupCardList()
-        binding!!.buttonSelectBook.visibility = GONE
-        binding!!.selectedImage.setImageResource(R.drawable.youhavenobooks)
-        binding!!.currentBookText.text = ""
     }
 
     /**
@@ -207,23 +221,17 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
         // TODO: Handle case when book is already stored
         Log.i("File Successfully Opened", bookPath)
 
-        // retrieving metadata from book
-        val bookName = readingTracker!!.setBookFromFile(bookPath)
-        val bookThumbnail = readingTracker!!.getCoverImage()!!
-
-        // add books to library and set thumbnail
-        if(readingTracker!!.bookExistsDB(bookName)) {
-            readingTracker!!.bookInfo = readingTracker!!.getBook(bookName)!!
-            return
-        }
-
-        // adds book to library and configures reader
-        readingTracker!!.addBookToDB(bookName, bookPath, bookThumbnail, System.currentTimeMillis())
-        readingTracker!!.bookInfo = readingTracker!!.getBook(bookName)
-        setupCardList()
+        val statusCode = readingTracker!!.addEpubFileToDB(
+            bookPath,
+            settingsManager!!.fontSize,
+            settingsManager!!.maxStringSize
+        )
 
         // Reader is configured.
-        if(readingTracker!!.configureReader(bookPath, settingsManager!!.maxStringSize)) {
+        if(statusCode == 0) {
+            return
+        } else if (statusCode == 1) {
+            setupCardList()
             setSelectedBook(0)
         } else {
             Toast.makeText(requireContext(), "EPUB File supplied is invalid", Toast.LENGTH_SHORT).show()
@@ -231,7 +239,6 @@ class LibraryFragment: Fragment(), PickiTCallbacks {
 
         Log.i("COMPLETED", "PROCESSING BOOK")
 
-        // onCreate(this)
     }
 
     override fun PickiTonUriReturned() {}

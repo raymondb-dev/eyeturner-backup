@@ -19,6 +19,7 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                 "bookPath TEXT," +
                 "pageNumber INT," +
                 "image BLOB," +
+                "fontSize INT," +
                 "timestampLastUsed TIMESTAMP"+
                 ");";
 
@@ -27,14 +28,21 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {}
 
-    fun addBook(bookName: String, bookPath: String, imageByteArray: ByteArray, timestamp: Long): Long {
+    fun addBook(bookName: String,
+                bookPath: String,
+                imageByteArray:
+                ByteArray,
+                fontSize: Int,
+                timestamp: Long
+    ): Long {
         val db = this.writableDatabase
 
         val insertValues = ContentValues()
         insertValues.put("bookName", bookName) //These Fields should be your String values of actual column names
         insertValues.put("bookPath", bookPath)
-        insertValues.put("image", imageByteArray)
         insertValues.put("pageNumber", 1)
+        insertValues.put("image", imageByteArray)
+        insertValues.put("fontSize", fontSize)
         insertValues.put("timestampLastUsed",timestamp)
 
         val resultCode = db.insertOrThrow("Library", null, insertValues)
@@ -60,6 +68,16 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         db.close()
     }
 
+    fun updateFontSize(bookName: String, fontSize: Int) {
+        val db = this.writableDatabase
+
+        val updateValues = ContentValues()
+        updateValues.put("fontSize", fontSize)
+
+        db.update("Library", updateValues,"bookName=?", arrayOf(bookName))
+        db.close()
+    }
+
     fun getBook(bookName: String): StoredBook? {
 
         val db = this.readableDatabase
@@ -71,7 +89,8 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                 val path = bookCursor.getString(2)
                 val pageNumber = bookCursor.getInt(3)
                 val image = ImageConverter.byteToBitmap(bookCursor.getBlob(4))
-                val date = Date(bookCursor.getLong(5)) // converts milliseconds to Date
+                val fontSize = bookCursor.getInt(5)
+                val date = Date(bookCursor.getLong(6)) // converts milliseconds to Date
 
                 bookCursor.close()
                 db.close()
@@ -81,40 +100,9 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                     path,
                     pageNumber,
                     image,
+                    fontSize,
                     date
                 )
-        }
-
-        bookCursor.close()
-        db.close()
-
-        return null
-
-    }
-
-    fun getBookByPath(bookPath: String): StoredBook? {
-
-        val db = this.readableDatabase
-        val getBookSql = "SELECT * FROM Library WHERE bookPath=? "
-        val bookCursor = db.rawQuery(getBookSql, arrayOf(bookPath));
-
-        if (bookCursor.moveToFirst()) {
-            val name = bookCursor.getString(1)
-            val path = bookCursor.getString(2)
-            val pageNumber = bookCursor.getInt(3)
-            val image = ImageConverter.byteToBitmap(bookCursor.getBlob(4))
-            val date = Date(bookCursor.getLong(5)) // converts milliseconds to Date
-
-            bookCursor.close()
-            db.close()
-
-            return StoredBook(
-                name,
-                path,
-                pageNumber,
-                image,
-                date
-            )
         }
 
         bookCursor.close()
@@ -141,8 +129,9 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                 val bookPath = bookCursor.getString(2)
                 val pageNumber = bookCursor.getInt(3)
                 val image = ImageConverter.byteToBitmap(bookCursor.getBlob(4))
-                val date = Date(bookCursor.getLong(5)) // converts milliseconds to Date
-                bookList.add(StoredBook(bookName, bookPath, pageNumber, image, date))
+                val fontSize = bookCursor.getInt(5)
+                val date = Date(bookCursor.getLong(6)) // converts milliseconds to Date
+                bookList.add(StoredBook(bookName, bookPath, pageNumber, image, fontSize, date))
 
             } while (bookCursor.moveToNext())
         }

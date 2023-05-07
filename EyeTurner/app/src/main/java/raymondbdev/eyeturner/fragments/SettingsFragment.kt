@@ -60,28 +60,24 @@ class SettingsFragment : Fragment() {
 
     fun setupButtons() {
         // Assign controls to buttons.
-        binding!!.fontSizeValue.setText(settingsManager!!.fontSize.toString())
+        binding!!.fontSizeValue.text = String.format(" %d ", settingsManager!!.fontSize)
 
         binding!!.colourModeValue.setText(settingsManager!!.getColourMode())
         binding!!.colourModeValue.setOnClickListener { view ->
             settingsManager!!.switchColourMode()
-            binding!!.colourModeValue.setText(settingsManager!!.getColourMode().toString())
+            binding!!.colourModeValue.text = String.format(" %d ", settingsManager!!.getColourMode())
         }
     }
 
     private fun previousFontSize() {
         requireActivity().runOnUiThread {
-            binding!!.fontSizeValue.setText(
-                settingsManager!!.getPreviousFontSize().toString()
-            )
+            binding!!.fontSizeValue.text = String.format(" %d ", settingsManager!!.getPreviousFontSize())
         }
     }
 
     private fun nextFontSize() {
         requireActivity().runOnUiThread {
-            binding!!.fontSizeValue.setText(
-                settingsManager!!.getNextFontSize().toString()
-            )
+            binding!!.fontSizeValue.text = String.format(" %d ", settingsManager!!.getNextFontSize())
         }
     }
 

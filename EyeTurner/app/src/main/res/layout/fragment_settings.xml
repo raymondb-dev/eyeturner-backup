@@ -16,9 +16,12 @@
         android:layout_alignParentTop="true"
         android:backgroundTint="#854402"
         android:fontFamily="serif"
+        android:drawableEnd="@drawable/turn_eye_up_symbol"
         android:text="@string/return_to_library_button"
         android:textColor="#E3E3E3"
         app:cornerRadius="0dp" />
+
+    <!-- Font Settings -->
 
     <TextView
         android:id="@+id/fontSizeText"
@@ -29,37 +32,44 @@
         android:text="@string/font_size"
         android:textSize="30sp" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fontSizeValue"
+        style="@style/ButtonStyle"
+        android:drawableStart="@drawable/turn_eye_left_symbol"
+        android:drawableEnd="@drawable/turn_eye_right_symbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@id/fontSizeText"
         android:layout_centerInParent="true"
         android:layout_marginStart="23dp"
-        android:layout_toEndOf="@id/fontSizeText"
+        android:layout_marginBottom="30dp"
         android:fontFamily="serif"
         android:text="t"
         android:textSize="30sp" />
+
+    <!-- Vibrate Settings -->
 
     <TextView
         android:id="@+id/colourModeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fontSizeText"
+        android:layout_below="@id/fontSizeValue"
         android:layout_centerHorizontal="true"
         android:fontFamily="serif"
         android:text="@string/dark_mode"
         android:textSize="30sp" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/colourModeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fontSizeValue"
+        android:layout_below="@id/colourModeText"
+        style="@style/ButtonStyle"
         android:layout_marginStart="25dp"
-        android:layout_toEndOf="@id/fontSizeText"
+        android:layout_centerInParent="true"
         android:fontFamily="serif"
         android:text="t"
+        android:drawableEnd="@drawable/turn_eye_down_symbol"
         android:textSize="30sp" />
 
 

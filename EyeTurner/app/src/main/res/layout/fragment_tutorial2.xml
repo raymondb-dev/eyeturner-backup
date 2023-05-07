@@ -35,43 +35,20 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/downGestureText"
-            android:layout_width="267dp"
-            android:layout_height="27dp"
-            android:layout_below="@id/lookOutsideText"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="serif"
-            android:gravity="center"
-            android:text="@string/performed_quot_look_down_quot_gesture_x_3" />
-
-        <TextView
-            android:id="@+id/downCountText"
-            android:layout_below="@id/lookOutsideText"
-            android:layout_toEndOf="@id/downGestureText"
-            android:layout_width="20dp"
-            android:layout_height="27dp"
-            android:fontFamily="serif"
-            android:gravity="center"
-            android:text="0"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:layout_editor_absoluteX="305dp"
-            tools:layout_editor_absoluteY="512dp" />
-
-        <TextView
             android:id="@+id/upGestureText"
             android:layout_width="267dp"
             android:layout_height="27dp"
-            android:layout_below="@id/downGestureText"
+            android:layout_below="@id/lookOutsideText"
             android:layout_centerHorizontal="true"
             android:fontFamily="serif"
             android:gravity="center"
-            android:text="@string/perform_look_left_text"
+            android:text="@string/performed_quot_look_up_quot_gesture_x_3"
             tools:layout_editor_absoluteX="36dp"
             tools:layout_editor_absoluteY="497dp" />
 
         <TextView
             android:id="@+id/upCountText"
-            android:layout_below="@id/downGestureText"
+            android:layout_below="@id/lookOutsideText"
             android:layout_toEndOf="@id/upGestureText"
             android:layout_width="20dp"
             android:layout_height="27dp"
@@ -81,6 +58,29 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             tools:layout_editor_absoluteX="330dp"
             tools:layout_editor_absoluteY="485dp" />
+
+        <TextView
+            android:id="@+id/downGestureText"
+            android:layout_width="267dp"
+            android:layout_height="27dp"
+            android:layout_below="@id/upGestureText"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/performed_quot_look_down_quot_gesture_x_3" />
+
+        <TextView
+            android:id="@+id/downCountText"
+            android:layout_below="@id/upGestureText"
+            android:layout_toEndOf="@id/downGestureText"
+            android:layout_width="20dp"
+            android:layout_height="27dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="0"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:layout_editor_absoluteX="305dp"
+            tools:layout_editor_absoluteY="512dp" />
 
     </RelativeLayout>
 

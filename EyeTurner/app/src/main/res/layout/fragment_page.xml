@@ -8,6 +8,7 @@
     tools:context=".fragments.PageFragment">
 
     <androidx.appcompat.widget.AppCompatButton
+        android:drawableEnd="@drawable/turn_eye_up_symbol"
         android:id="@+id/buttonReturn"
         android:layout_width="412dp"
         android:layout_height="51dp"
@@ -19,8 +20,8 @@
 
     <TextView
         android:id="@+id/pageContentText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="382dp"
+        android:layout_height="602dp"
         android:layout_above="@id/pageNumberText"
         android:layout_below="@id/buttonReturn"
         android:layout_marginStart="15dp"
@@ -35,13 +36,27 @@
         android:layout_height="27dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="21dp"
         android:gravity="center"
         android:text="1"
         android:textAppearance="@style/TextStyle"
         android:textSize="20sp"
-        android:textStyle="bold"
-         />
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSettings"
+        style="@style/ButtonStyle"
+        android:drawableEnd="@drawable/turn_eye_down_symbol"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="serif"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:gravity="center"
+        android:text="@string/settings_button"
+        android:textColor="@color/default_button_text"
+        android:visibility="gone"
+        tools:layout_editor_absoluteY="685dp" />
 
 </RelativeLayout>

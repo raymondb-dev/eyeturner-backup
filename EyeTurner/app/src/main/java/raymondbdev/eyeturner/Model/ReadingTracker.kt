@@ -1,6 +1,8 @@
 package raymondbdev.eyeturner.Model
 
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.github.mertakdut.Reader
 import com.github.mertakdut.exception.OutOfPagesException
 import com.github.mertakdut.exception.ReadingException
@@ -35,15 +37,12 @@ class ReadingTracker(newReader: Reader, newDb: LibraryDBHelper) {
         return bookMetadata!!.metadata.firstTitle
     }
 
+    // returns compressed cover image
     fun getCoverImage(): ByteArray? {
         if(bookMetadata != null) {
-            return bookMetadata?.coverImage!!.data
+            return ImageConverter.compressBitmapToByteArray(bookMetadata?.coverImage!!.data)
         }
         return null
-    }
-
-    fun getBookName(): String? {
-        return bookMetadata!!.metadata.firstTitle
     }
 
     fun getCurrentPage(): String {
@@ -115,24 +114,64 @@ class ReadingTracker(newReader: Reader, newDb: LibraryDBHelper) {
         return success
     }
 
+    /**
+     *
+     * @return -1 if file is invalid, 0 if file already exists, 1 if file is successfully added.
+     */
+    fun addEpubFileToDB(bookPath: String, fontSize: Int, maxStringSize: Int): Int {
+        // retrieving metadata from book
+        val bookName = setBookFromFile(bookPath)
+        val bookThumbnail = getCoverImage()!!
+
+        // add books to library and set thumbnail
+        if(bookExistsDB(bookName)) {
+            bookInfo = db!!.getBook(bookName)
+            return 0
+        }
+
+        // adds book to library and configures reader
+        db!!.addBook(bookName, bookPath, bookThumbnail, fontSize, System.currentTimeMillis())
+        bookInfo = db!!.getBook(bookName)
+
+        // Reader is configured.
+        if(configureReader(bookPath, maxStringSize)) {
+            return 1
+        } else {
+            return -1
+        }
+    }
+
     // DB functions
     fun clearDB() {
         db!!.clearDB()
+    }
+
+    fun updateFontSize(updatedFontSize: Int, updatedMaxStringSize: Int) {
+        // TODO: Font To Page Conversion
+        // get Font Size and Page Number, based on stored BookInfo.
+        val maxStringLength = SettingsManager.getMaxStringSizeByFontSize(bookInfo!!.fontSize)
+        val pageNumber = bookInfo!!.pageNumber
+
+        // calculate pageNumber from this
+        val charTotal = pageNumber * maxStringLength!! // the character the top of the page is at.
+        val newPageNumber = charTotal / updatedMaxStringSize
+
+        // update database
+        db!!.updateTimestampAndPageNumber(bookInfo!!.bookName, newPageNumber)
+        db!!.updateFontSize(bookInfo!!.bookName, updatedFontSize)
+
+        // reconfigure reader
+        configureReader(bookInfo!!.bookPath, updatedMaxStringSize)
+        currentPageIndex = newPageNumber
+        retrievePageFromReader(currentPageIndex)
+
     }
 
     fun getBooksFromDB(): ArrayList<StoredBook> {
         return db!!.getListOfBooks()
     }
 
-    fun addBookToDB(bookName: String, bookPath: String, bookThumbnail: ByteArray, timestamp: Long) {
-        db!!.addBook(bookName, bookPath, bookThumbnail, System.currentTimeMillis())
-    }
-
-    fun getBook(bookName: String): StoredBook? {
-        return db!!.getBook(bookName)
-    }
-
-    fun bookExistsDB(bookName: String): Boolean {
+    private fun bookExistsDB(bookName: String): Boolean {
         return (db!!.getBook(bookName) != null)
     }
 

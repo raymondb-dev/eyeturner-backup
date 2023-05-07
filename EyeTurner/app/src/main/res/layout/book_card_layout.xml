@@ -10,8 +10,7 @@
     app:cardElevation="8dp"
     app:cardMaxElevation="10dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true"
-    >
+    app:cardUseCompatPadding="true" >
 
     <ImageView
         android:id="@+id/bookCard"

@@ -10,6 +10,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSelectBook"
         style="@style/ButtonStyle"
+        android:drawableEnd="@drawable/turn_eye_up_symbol"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="46dp"
@@ -20,15 +21,16 @@
 
     <TextView
         android:id="@+id/currentBookText"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/buttonSelectBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/buttonSelectBook"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:fontFamily="serif"
         android:scrollbarSize="14dp"
-        android:textAppearance="@style/TextStyle"
-        android:textSize="14sp"
 
+        android:textSize="20dp"
+        android:textStyle="bold|italic"
         tools:layout_editor_absoluteX="206dp"
         tools:layout_editor_absoluteY="82dp" />
 
@@ -43,20 +45,46 @@
         tools:layout_editor_absoluteX="114dp"
         tools:layout_editor_absoluteY="101dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/libraryDisplay"
+    <LinearLayout
+        android:id="@+id/libraryLinearLayout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_below="@id/selectedImage"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/black"
-        android:clickable="false" />
+        android:background="@drawable/wood_background">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/libraryDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/default_background"
+            android:clickable="false" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/previousBookButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/libraryLinearLayout"
+        android:drawableLeft="@drawable/turn_eye_left_symbol"
+        android:text="@string/previous_book" />
+
+    <Button
+        android:id="@+id/nextBookButton"
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_below="@id/libraryLinearLayout"
+        android:layout_alignParentEnd="true"
+        android:drawableEnd="@drawable/turn_eye_right_symbol"
+        android:text="@string/next_book" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_add_file"
         style="@style/ButtonStyle"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/libraryDisplay"
+        android:layout_below="@id/nextBookButton"
         android:layout_width="138dp"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
@@ -64,19 +92,9 @@
         android:fontFamily="serif"
         android:text="@string/file_button"
         android:textColor="@color/default_button_text"
+        android:drawableEnd="@drawable/touch_symbol"
         tools:layout_editor_absoluteX="136dp"
         tools:layout_editor_absoluteY="605dp" />
-
-    <Button
-        android:id="@+id/clearLibraryButton"
-        style="@style/ButtonStyle"
-        android:layout_below="@id/button_add_file"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/clear_library_button"
-        tools:layout_editor_absoluteX="126dp"
-        tools:layout_editor_absoluteY="635dp" />
 
     <!-- FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -97,15 +115,18 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSettings"
         style="@style/ButtonStyle"
-        android:layout_alignParentBottom="true"
-        android:foregroundGravity="center_vertical|center_horizontal"
-        android:gravity="center"
+        android:drawableEnd="@drawable/turn_eye_down_symbol"
         android:layout_width="match_parent"
         android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
         android:fontFamily="serif"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:gravity="center"
         android:text="@string/settings_button"
         android:textColor="@color/default_button_text"
         tools:layout_editor_absoluteY="685dp" />
+
+
 
 </RelativeLayout>
 

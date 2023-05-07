@@ -19,6 +19,7 @@ import raymondbdev.eyeturner.Model.*
 import raymondbdev.eyeturner.R
 import raymondbdev.eyeturner.databinding.ActivityMainBinding
 
+
 /**
  * Permissions code adapted from SeeSo API Quick Start (Java) Guide:
  * https://docs.seeso.io/nonversioning/quick-start/android-quick-start/
@@ -29,14 +30,6 @@ class MainActivity: AppCompatActivity() {
     private var appBarConfiguration: AppBarConfiguration? = null
     private var binding: ActivityMainBinding? = null
     private var gazeTrackerHelper: GazeTrackerHelper? = null
-
-    companion object {
-        private val PERMISSIONS = arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-        private const val REQ_PERMISSION = 1000
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -56,9 +49,6 @@ class MainActivity: AppCompatActivity() {
         parentViewModel!!.setMutableContentResolver(contentResolver)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-        // Get camera and storage writing permissions
-        checkPermission()
 
         // Setting up navigation components
         setContentView(binding!!.getRoot())
@@ -92,60 +82,4 @@ class MainActivity: AppCompatActivity() {
                 || super.onSupportNavigateUp())
     }
 
-
-    // Checking Permissions
-    private fun checkPermission() {
-        // Check permission status
-        if (!hasPermissions(PERMISSIONS)) {
-            requestPermissions(PERMISSIONS, REQ_PERMISSION)
-        } else {
-            checkPermission(true)
-        }
-    }
-
-    private fun hasPermissions(permissions: Array<String>): Boolean {
-        var result: Int
-        // Check permission status in string array
-        for (perms in permissions) {
-            if (perms == Manifest.permission.SYSTEM_ALERT_WINDOW) {
-                if (!Settings.canDrawOverlays(this)) {
-                    return false
-                }
-            }
-            result = ContextCompat.checkSelfPermission(this, perms)
-            if (result == PackageManager.PERMISSION_DENIED) {
-                // When if unauthorized permission found
-                return false
-            }
-        }
-
-        // When if all permission allowed
-        return true
-    }
-
-    private fun checkPermission(isGranted: Boolean) {
-        if (isGranted) {
-            permissionGranted()
-        } else {
-            finish()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQ_PERMISSION) {
-            if (grantResults.isNotEmpty()) {
-                val cameraPermissionAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED
-                checkPermission(cameraPermissionAccepted)
-            }
-        }
-    }
-
-    fun permissionGranted() {
-        // gazeTrackerHelper.initGazeTracker()
-    }
 }

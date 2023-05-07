@@ -69,7 +69,7 @@ class TutorialFragment2 : Fragment() {
             // NavHostFragment.findNavController(this@TutorialFragment2)
             //     .navigate(R.id.action_completeTutorial2)
             NavHostFragment.findNavController(this@TutorialFragment2)
-                .navigate(R.id.action_Tutorial2Home)
+                .navigate(R.id.action_completeTutorial2)
         }
     }
 

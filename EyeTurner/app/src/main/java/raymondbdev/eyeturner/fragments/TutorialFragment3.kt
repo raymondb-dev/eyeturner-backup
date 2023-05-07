@@ -13,6 +13,7 @@ import camp.visual.gazetracker.callback.UserStatusCallback
 import camp.visual.gazetracker.gaze.GazeInfo
 import raymondbdev.eyeturner.Model.GazeTrackerHelper
 import raymondbdev.eyeturner.Model.ParentViewModel
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 import raymondbdev.eyeturner.R
 import raymondbdev.eyeturner.databinding.FragmentTutorial3Binding
 
@@ -23,31 +24,17 @@ class TutorialFragment3 : Fragment() {
 
     private var binding: FragmentTutorial3Binding? = null
 
-    private var blinkCount = 0
     private var parentViewModel: ParentViewModel? = null
     private var gazeTrackerHelper: GazeTrackerHelper? = null
-    private var finished = false
-    private val userStatusCallback: UserStatusCallback = object : UserStatusCallback {
-        override fun onAttention(timestampBegin: Long, timestampEnd: Long, score: Float) {}
-        override fun onDrowsiness(timestamp: Long, isDrowsiness: Boolean) {}
-        override fun onBlink(
-            timestamp: Long,
-            isBlinkLeft: Boolean,
-            isBlinkRight: Boolean,
-            isBlink: Boolean,
-            eyeOpenness: Float
-        ) {
-            if (isBlink) {
-                Log.i("User Blink Count", blinkCount.toString())
-                setAndDisplayBlinkCount()
-            }
-            if (blinkCount >= 3 && !finished) {
-                finishTutorial()
-            }
+
+    private val tutorialGazeCallBack = GazeCallback { gazeInfo: GazeInfo? ->
+        val gesture = gazeTrackerHelper!!.calculateEyeGesture(gazeInfo!!)
+
+        if (gesture == EyeGesture.LOOK_UP) {
+            finishTutorial()
         }
     }
 
-    private val tutorialGazeCallBack = GazeCallback { gazeInfo: GazeInfo? -> }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parentViewModel = ViewModelProvider(requireActivity()).get(ParentViewModel::class.java)
@@ -57,8 +44,7 @@ class TutorialFragment3 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        gazeTrackerHelper!!.setUserStatusCallback(userStatusCallback)
+    ): View {
         gazeTrackerHelper!!.setGazeCallback(tutorialGazeCallBack)
         gazeTrackerHelper!!.startTracking()
 
@@ -67,7 +53,13 @@ class TutorialFragment3 : Fragment() {
     }
 
     private fun finishTutorial() {
-        finished = true
+        val preferences = requireActivity().getSharedPreferences("settings", 0)
+
+        if(preferences.getBoolean("FirstBoot", true)) {
+            Log.i("EyeTurner Log", "User completed tutorial")
+            preferences.edit().putBoolean("FirstBoot", false).apply()
+        }
+
         requireActivity().runOnUiThread {
             gazeTrackerHelper!!.stopTracking()
             NavHostFragment.findNavController(this@TutorialFragment3)
@@ -75,14 +67,4 @@ class TutorialFragment3 : Fragment() {
         }
     }
 
-    private fun setAndDisplayBlinkCount() {
-        blinkCount++
-        parentViewModel!!.vibrate()
-
-        requireActivity().runOnUiThread {
-            binding?.blinkCountText?.setText(
-                blinkCount.toString()
-            )
-        }
-    }
 }

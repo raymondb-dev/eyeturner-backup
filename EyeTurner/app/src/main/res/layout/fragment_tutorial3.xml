@@ -6,45 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".fragments.TutorialFragment3">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/default_background">
 
-        <TextView
-            android:id="@+id/blinkGestureText"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/finishTutorial"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text="Performed &quot;Blink&quot; Gesture"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/blinkCountText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.726" />
-
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/tutorialImage"
-            android:layout_width="297dp"
-            android:layout_height="283dp"
-            android:src="@drawable/blinking_gif"
-            app:layout_constraintBottom_toTopOf="@+id/blinkGestureText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:drawableEnd="@drawable/turn_eye_up_symbol"
+            android:text="@string/finish_tutorial" />
 
         <TextView
-            android:id="@+id/blinkCountText"
+            android:id="@+id/message"
+            style="@style/TextStyle"
+            android:layout_width="371dp"
+            android:layout_height="88dp"
+            android:layout_centerInParent="true"
+            android:foregroundGravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/interactions_text" />
+
+        <TextView
+            android:id="@+id/lookLeft"
+            style="@style/TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="100dp"
-            android:text="0"
-            android:textAppearance="@style/TextStyle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tutorialImage"
-            app:layout_constraintVertical_bias="0.377" />
+            android:layout_below="@id/message"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:text="@string/look_left"
+            app:drawableStartCompat="@drawable/turn_eye_left_symbol" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/lookRight"
+            style="@style/TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lookLeft"
+            android:layout_centerInParent="true"
+            android:text="@string/look_right"
+            android:layout_marginBottom="10dp"
+            app:drawableStartCompat="@drawable/turn_eye_right_symbol" />
 
+        <TextView
+            android:id="@+id/lookUp"
+            style="@style/TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lookRight"
+            android:layout_centerInParent="true"
+            android:text="@string/look_up"
+            android:layout_marginBottom="10dp"
+            app:drawableStartCompat="@drawable/turn_eye_up_symbol" />
+
+        <TextView
+            android:id="@+id/lookDown"
+            style="@style/TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lookUp"
+            android:layout_centerInParent="true"
+            android:text="@string/look_down"
+            android:layout_marginBottom="10dp"
+            app:drawableStartCompat="@drawable/turn_eye_down_symbol" />
+
+        <TextView
+            android:id="@+id/touch"
+            style="@style/TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lookDown"
+            android:layout_centerInParent="true"
+            android:text="@string/touch"
+            app:drawableStartCompat="@drawable/touch_symbol" />
+
+
+    </RelativeLayout>
 </FrameLayout>

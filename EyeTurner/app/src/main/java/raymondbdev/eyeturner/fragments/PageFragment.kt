@@ -3,9 +3,11 @@ package raymondbdev.eyeturner.fragments
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.text.bold
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +19,7 @@ import raymondbdev.eyeturner.Model.ParentViewModel
 import raymondbdev.eyeturner.Model.ReadingTracker
 import raymondbdev.eyeturner.Model.SettingsManager
 import raymondbdev.eyeturner.Model.enums.EyeGesture
+import raymondbdev.eyeturner.R
 import raymondbdev.eyeturner.databinding.FragmentPageBinding
 import java.util.regex.Pattern
 
@@ -46,6 +49,9 @@ class PageFragment : Fragment() {
         } else if (gesture == EyeGesture.LOOK_UP) { // navigates to library.
             navigateToLibrary()
         }
+        /* else if (gesture == EyeGesture.LOOK_DOWN) {
+            navigateToSettings()
+        } */
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,15 +65,20 @@ class PageFragment : Fragment() {
         gazeTrackerHelper = parentViewModel!!.tracker
         settingsManager = parentViewModel!!.settingsManager
         readingTracker = parentViewModel!!.readingTracker
+
+        val instruction = "Look Left and Right to turn the page."
+        Toast.makeText(requireContext(), instruction, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View?
+        savedInstanceState: Bundle?): View
     {
         gazeTrackerHelper!!.setGazeCallback(readingCallback)
         gazeTrackerHelper!!.startTracking()
+
+        // updateFontSize()
 
         // Inflate the layout for this fragment
         binding = FragmentPageBinding.inflate(inflater, container, false)
@@ -84,27 +95,51 @@ class PageFragment : Fragment() {
         setPageNumber(readingTracker!!.currentPageIndex)
     }
 
+    private fun navigateToLibrary() {
+        requireActivity().runOnUiThread {
+            gazeTrackerHelper!!.stopTracking()
+            NavHostFragment.findNavController(this@PageFragment).popBackStack()
+        }
+    }
+
+    private fun navigateToSettings() {
+        requireActivity().runOnUiThread {
+            gazeTrackerHelper!!.stopTracking()
+            NavHostFragment.findNavController(this@PageFragment)
+                .navigate(R.id.PageToSettings_Transition)
+        }
+    }
+
+    private fun updateFontSize() {
+        readingTracker!!.updateFontSize(
+            settingsManager!!.fontSize,
+            settingsManager!!.maxStringSize)
+
+    }
+
     /**
      * Increments the page index and moves to the next page.
      */
-    fun nextPage() {
+    private fun nextPage() {
         requireActivity().runOnUiThread {
             setPageContent(readingTracker!!.turnPageRight())
             setPageNumber(readingTracker!!.currentPageIndex)
         }
+
     }
 
     /**
      * Decrements the page index and moves to the previous page.
      */
-    fun previousPage() {
+    private fun previousPage() {
         requireActivity().runOnUiThread {
             setPageContent(readingTracker!!.turnPageLeft())
             setPageNumber(readingTracker!!.currentPageIndex)
         }
+
     }
 
-    fun setPageContent(pageContent: String) {
+    private fun setPageContent(pageContent: String) {
 
         val modifiedPageContent = SpannableStringBuilder()
 
@@ -124,13 +159,14 @@ class PageFragment : Fragment() {
         binding!!.pageContentText.text = modifiedPageContent
     }
 
-    fun setPageNumber(pageNumber: Int) {
+    private fun setPageNumber(pageNumber: Int) {
+
+        Log.i("Page Number", pageNumber.toString())
 
         // TODO: use actual font
         // val defaultTypeface = Typeface.createFromAsset(requireActivity().assets, "font/literata.ttf")
         val defaultTypeface = null
 
-        // TODO: more sensible in setPageContent
         if(pageNumber == 1) { // User on Title Page
             binding!!.pageContentText.textSize = 28F
             binding!!.pageContentText.setTypeface(defaultTypeface, Typeface.BOLD)
@@ -145,13 +181,6 @@ class PageFragment : Fragment() {
     /**
      * Navigates to library page
      */
-    private fun navigateToLibrary() {
-        requireActivity().runOnUiThread {
-            gazeTrackerHelper!!.stopTracking()
-            NavHostFragment.findNavController(this@PageFragment).popBackStack()
-        }
-    }
-
     companion object {
         private const val ARG_PAGE_CONTENTS = "PageContents"
         fun newInstance(pageContents: String?): PageFragment {

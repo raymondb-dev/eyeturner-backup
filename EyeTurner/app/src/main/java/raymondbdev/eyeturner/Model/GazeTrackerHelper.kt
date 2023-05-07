@@ -86,7 +86,6 @@ class GazeTrackerHelper(context: Context) {
         }
 
         Log.w("SeeSo", "Initialization Error: $err")
-        initGazeTracker()
     }
 
     fun deinitGazeTracker() {
