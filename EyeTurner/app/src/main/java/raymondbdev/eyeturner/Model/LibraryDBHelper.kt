@@ -1,10 +1,11 @@
 package raymondbdev.eyeturner.Model
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import java.util.*
+
 
 /**
  * Helper class for DB operations. Allows persistive data to be used.
@@ -13,12 +14,13 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     override fun onCreate(db: SQLiteDatabase) {
 
         val createLibraryTableSql = "CREATE TABLE IF NOT EXISTS Library(" +
-                "id INT NOT NULL," +
+                "id INT PRIMARY KEY," +
                 "bookName TEXT," +
                 "bookPath TEXT," +
                 "pageNumber INT," +
-                "image TEXT," +
-                "UNIQUE(id)" +
+                "image BLOB," +
+                "fontSize INT," +
+                "timestampLastUsed TIMESTAMP"+
                 ");";
 
         db.execSQL(createLibraryTableSql)
@@ -26,34 +28,116 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {}
 
-    fun addBook(bookName: String, bookPath: String, imageByteArray: ByteArray) {
+    fun addBook(bookName: String,
+                bookPath: String,
+                imageByteArray:
+                ByteArray,
+                fontSize: Int,
+                timestamp: Long
+    ): Long {
         val db = this.writableDatabase
-        val addBookSql = "UPDATE Library " +
-                String.format("SET bookName=%s ", bookName) +
-                String.format("SET bookPath=%s ", bookPath) +
-                String.format("SET image=%s ", imageByteArray) +
-                String.format("SET pageNumber=%d ", 1) +
-                String.format("SET timestampLastUsed=% ", 1)
-        db.execSQL(addBookSql)
+
+        val insertValues = ContentValues()
+        insertValues.put("bookName", bookName) //These Fields should be your String values of actual column names
+        insertValues.put("bookPath", bookPath)
+        insertValues.put("pageNumber", 1)
+        insertValues.put("image", imageByteArray)
+        insertValues.put("fontSize", fontSize)
+        insertValues.put("timestampLastUsed",timestamp)
+
+        val resultCode = db.insertOrThrow("Library", null, insertValues)
+        db.close()
+
+        return resultCode
     }
 
-    fun getListOfBooks(): List<StoredBook> {
+    fun removeBook(bookName: String) {
+        val db = this.writableDatabase
+        db.delete("Library", "bookName=?", arrayOf(bookName))
+        db.close()
+    }
 
-        var bookList = ArrayList<StoredBook>()
+    fun updateTimestampAndPageNumber(bookName: String, pageNumber: Int) {
+        val db = this.writableDatabase
+
+        val updateValues = ContentValues()
+        updateValues.put("pageNumber", pageNumber)
+        updateValues.put("timestampLastUsed", System.currentTimeMillis())
+
+        db.update("Library", updateValues,"bookName=?", arrayOf(bookName))
+        db.close()
+    }
+
+    fun updateFontSize(bookName: String, fontSize: Int) {
+        val db = this.writableDatabase
+
+        val updateValues = ContentValues()
+        updateValues.put("fontSize", fontSize)
+
+        db.update("Library", updateValues,"bookName=?", arrayOf(bookName))
+        db.close()
+    }
+
+    fun getBook(bookName: String): StoredBook? {
 
         val db = this.readableDatabase
-        val getBooksSql = "SELECT bookName, bookPath, pageNumber, image FROM Library"
-        val bookCursor = db.rawQuery(getBooksSql, null);
+        val getBookSql = "SELECT * FROM Library WHERE bookName=? "
+        val bookCursor = db.rawQuery(getBookSql, arrayOf(bookName));
 
-        while(bookCursor.moveToNext()) {
-            val bookName = bookCursor.getString(0)
-            val bookPath = bookCursor.getString(1)
-            val pageNumber = bookCursor.getInt(2)
-            val image = ImageConverter.byteToBitmap(bookCursor.getBlob(3))
-            bookList.add(StoredBook(bookName, bookPath, pageNumber, image!!))
+        if (bookCursor.moveToFirst()) {
+                val name = bookCursor.getString(1)
+                val path = bookCursor.getString(2)
+                val pageNumber = bookCursor.getInt(3)
+                val image = ImageConverter.byteToBitmap(bookCursor.getBlob(4))
+                val fontSize = bookCursor.getInt(5)
+                val date = Date(bookCursor.getLong(6)) // converts milliseconds to Date
+
+                bookCursor.close()
+                db.close()
+
+                return StoredBook(
+                    name,
+                    path,
+                    pageNumber,
+                    image,
+                    fontSize,
+                    date
+                )
         }
 
         bookCursor.close()
+        db.close()
+
+        return null
+
+    }
+
+    /**
+     * Returns a list of stored books in order of timestamp.
+     */
+    fun getListOfBooks(): ArrayList<StoredBook> {
+
+        val bookList = ArrayList<StoredBook>()
+
+        val db = this.readableDatabase
+        val getBooksSql = "SELECT * FROM Library ORDER BY timestampLastUsed DESC "
+        val bookCursor = db.rawQuery(getBooksSql, null);
+
+        if (bookCursor.moveToFirst()) {
+            do {
+                val bookName = bookCursor.getString(1)
+                val bookPath = bookCursor.getString(2)
+                val pageNumber = bookCursor.getInt(3)
+                val image = ImageConverter.byteToBitmap(bookCursor.getBlob(4))
+                val fontSize = bookCursor.getInt(5)
+                val date = Date(bookCursor.getLong(6)) // converts milliseconds to Date
+                bookList.add(StoredBook(bookName, bookPath, pageNumber, image, fontSize, date))
+
+            } while (bookCursor.moveToNext())
+        }
+
+        bookCursor.close()
+        db.close()
 
         return bookList
     }
@@ -61,28 +145,30 @@ class LibraryDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     fun getCurrentPageNumber(bookName: String): Int {
         val db = this.readableDatabase
 
-        val getPageNumberSql = String.format("SELECT pageNumber FROM Library WHERE bookName=%s", bookName)
-        val bookCursor = db.rawQuery(getPageNumberSql, null);
+        val getPageNumberSql = "SELECT pageNumber FROM Library WHERE bookName=?"
+        val bookCursor = db.rawQuery(getPageNumberSql, arrayOf(bookName));
 
         bookCursor.moveToFirst()
+
         val pageNumber = bookCursor.getInt(0)
+
         bookCursor.close()
+        db.close()
 
         return pageNumber
     }
 
-    fun storePageNumber(bookName: String, pageNumber: Int) {
+    fun clearDB() {
         val db = this.writableDatabase
-        val updatePageNumberSql = "UPDATE PiggyBank " +
-                String.format("SET pageNumber=%d ", pageNumber) +
-                String.format("WHERE bookName=%s ", bookName)
-
-        db.execSQL(updatePageNumberSql)
+        val deleteTableSql = "DROP TABLE IF EXISTS Library"
+        db.execSQL(deleteTableSql)
+        onCreate(db)
+        db.close()
     }
 
     companion object {
         // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "FeedReader.db"
+        const val DATABASE_VERSION = 2
+        const val DATABASE_NAME = "bookLibrary.db"
     }
 }

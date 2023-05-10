@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.TutorialFragment2">
+    tools:context=".fragments.TutorialFragment2">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/default_background">
@@ -15,65 +15,73 @@
             android:id="@+id/tutorialImage"
             android:layout_width="380dp"
             android:layout_height="380dp"
+            android:layout_centerHorizontal="true"
+            android:baselineAlignBottom="false"
+            android:layout_marginTop="10dp"
             app:srcCompat="@drawable/updownturntutorial"
-            app:layout_constraintBottom_toTopOf="@+id/upGestureText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.516"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.644" />
+            tools:layout_editor_absoluteX="15dp"
+            tools:layout_editor_absoluteY="4dp" />
 
         <TextView
-            android:id="@+id/downGestureText"
-            android:layout_width="255dp"
-            android:layout_height="29dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginBottom="48dp"
-            android:fontFamily="serif"
-            android:text="Performed &quot;Look Down&quot; Gesture x 3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/lookOutsideText"
+            android:layout_below="@id/tutorialImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="44dp"
+            android:foregroundGravity="center_vertical|center_horizontal"
+            android:gravity="center"
+            android:text="@string/look_outside_text"
+            android:textAppearance="@style/TextStyle"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/upGestureText"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
+            android:layout_width="267dp"
+            android:layout_height="27dp"
+            android:layout_below="@id/lookOutsideText"
+            android:layout_centerHorizontal="true"
             android:fontFamily="serif"
-            android:text="Performed &quot;Look Up&quot; Gesture x 3"
-            app:layout_constraintBottom_toTopOf="@+id/downGestureText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.901" />
+            android:gravity="center"
+            android:text="@string/performed_quot_look_up_quot_gesture_x_3"
+            tools:layout_editor_absoluteX="36dp"
+            tools:layout_editor_absoluteY="497dp" />
 
         <TextView
             android:id="@+id/upCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_below="@id/lookOutsideText"
+            android:layout_toEndOf="@id/upGestureText"
+            android:layout_width="20dp"
+            android:layout_height="27dp"
             android:fontFamily="serif"
+            android:gravity="center"
             android:text="0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toTopOf="@+id/downGestureText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintStart_toEndOf="@+id/upGestureText"
-            app:layout_constraintTop_toBottomOf="@+id/tutorialImage"
-            app:layout_constraintVertical_bias="0.431" />
+            tools:layout_editor_absoluteX="330dp"
+            tools:layout_editor_absoluteY="485dp" />
+
+        <TextView
+            android:id="@+id/downGestureText"
+            android:layout_width="267dp"
+            android:layout_height="27dp"
+            android:layout_below="@id/upGestureText"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/performed_quot_look_down_quot_gesture_x_3" />
 
         <TextView
             android:id="@+id/downCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_below="@id/upGestureText"
+            android:layout_toEndOf="@id/downGestureText"
+            android:layout_width="20dp"
+            android:layout_height="27dp"
             android:fontFamily="serif"
+            android:gravity="center"
             android:text="0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.475"
-            app:layout_constraintStart_toEndOf="@+id/downGestureText"
-            app:layout_constraintTop_toBottomOf="@+id/upGestureText"
-            app:layout_constraintVertical_bias="0.328" />
+            tools:layout_editor_absoluteX="305dp"
+            tools:layout_editor_absoluteY="512dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </FrameLayout>

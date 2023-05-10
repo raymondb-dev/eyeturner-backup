@@ -1,7 +1,6 @@
-package raymondbdev.eyeturner.Fragments
+package raymondbdev.eyeturner.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import camp.visual.gazetracker.callback.GazeCallback
 import camp.visual.gazetracker.gaze.GazeInfo
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
-import raymondbdev.eyeturner.Model.EyeGestureParser
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 import raymondbdev.eyeturner.Model.GazeTrackerHelper
 import raymondbdev.eyeturner.Model.ParentViewModel
 import raymondbdev.eyeturner.R
@@ -68,6 +66,8 @@ class TutorialFragment2 : Fragment() {
         finished = true
         requireActivity().runOnUiThread {
             gazeTrackerHelper!!.stopTracking()
+            // NavHostFragment.findNavController(this@TutorialFragment2)
+            //     .navigate(R.id.action_completeTutorial2)
             NavHostFragment.findNavController(this@TutorialFragment2)
                 .navigate(R.id.action_completeTutorial2)
         }

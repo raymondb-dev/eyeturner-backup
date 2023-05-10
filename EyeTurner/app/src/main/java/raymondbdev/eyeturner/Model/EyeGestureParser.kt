@@ -1,8 +1,10 @@
 package raymondbdev.eyeturner.Model
 
 import android.util.Log
+import camp.visual.gazetracker.filter.OneEuroFilterManager
 import camp.visual.gazetracker.gaze.GazeInfo
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
+import raymondbdev.eyeturner.Model.enums.EyeGesture
+
 
 /**
  * Contains functions for parsing Eye Gestures.
@@ -11,17 +13,29 @@ class EyeGestureParser {
     // Gesture boundaries for the phone (tested on Google Pixel 6 Pro)
     var LEFT_BOUNDARY = -200
     var RIGHT_BOUNDARY = 1700
-    var TOP_BOUNDARY = -400
-    var BOTTOM_BOUNDARY = 2100
+    var TOP_BOUNDARY = -700
+    var BOTTOM_BOUNDARY = 2400
 
     private var lastLocationX = 0.0
     private var lastLocationY = 0.0
 
+    private val oneEuroFilterManager = OneEuroFilterManager(2)
+
     fun calculateEyeGesture(gazeInfo: GazeInfo): EyeGesture {
-        val xPos = gazeInfo.x
-        val yPos = gazeInfo.y
-        val coordinatesStr = String.format("x - $xPos y - $yPos")
-//        Log.i("Eye Boundaries", "LOOK_RIGHT: $coordinatesStr")
+        var xPos = gazeInfo.x
+        var yPos = gazeInfo.y
+        var coordinatesStr = String.format("x - $xPos y - $yPos")
+
+        if (oneEuroFilterManager.filterValues(gazeInfo.timestamp, gazeInfo.x, gazeInfo.y)) {
+            val filteredValues = oneEuroFilterManager.filteredValues
+            val filteredX = filteredValues[0]
+            val filteredY = filteredValues[1]
+
+            xPos = filteredX
+            yPos = filteredY
+
+            // coordinatesStr = String.format("x - $xPos vs. filteredX - $filteredX : y - $yPos vs. filteredY - $filteredY")
+        }
 
         // accepts eye Gestures if movement from the boundary is detected.
         if (xPos > LEFT_BOUNDARY && lastLocationX < LEFT_BOUNDARY) {
@@ -50,7 +64,6 @@ class EyeGestureParser {
             lastLocationX = xPos.toDouble()
             lastLocationY = yPos.toDouble()
             return EyeGesture.LOOK_DOWN
-
         }
 
         lastLocationX = xPos.toDouble()

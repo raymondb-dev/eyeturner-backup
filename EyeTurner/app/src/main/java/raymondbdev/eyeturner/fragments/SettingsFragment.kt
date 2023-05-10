@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Fragments
+package raymondbdev.eyeturner.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import camp.visual.gazetracker.callback.GazeCallback
 import camp.visual.gazetracker.gaze.GazeInfo
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 import raymondbdev.eyeturner.Model.GazeTrackerHelper
 import raymondbdev.eyeturner.Model.ParentViewModel
 import raymondbdev.eyeturner.Model.SettingsManager
@@ -60,28 +60,24 @@ class SettingsFragment : Fragment() {
 
     fun setupButtons() {
         // Assign controls to buttons.
-        binding!!.fontSizeValue.setText(settingsManager!!.fontSize.toString())
+        binding!!.fontSizeValue.text = String.format(" %d ", settingsManager!!.fontSize)
 
         binding!!.colourModeValue.setText(settingsManager!!.getColourMode())
         binding!!.colourModeValue.setOnClickListener { view ->
             settingsManager!!.switchColourMode()
-            binding!!.colourModeValue.setText(settingsManager!!.getColourMode().toString())
+            binding!!.colourModeValue.text = String.format(" %d ", settingsManager!!.getColourMode())
         }
     }
 
     private fun previousFontSize() {
         requireActivity().runOnUiThread {
-            binding!!.fontSizeValue.setText(
-                settingsManager!!.getPreviousFontSize().toString()
-            )
+            binding!!.fontSizeValue.text = String.format(" %d ", settingsManager!!.getPreviousFontSize())
         }
     }
 
     private fun nextFontSize() {
         requireActivity().runOnUiThread {
-            binding!!.fontSizeValue.setText(
-                settingsManager!!.getNextFontSize().toString()
-            )
+            binding!!.fontSizeValue.text = String.format(" %d ", settingsManager!!.getNextFontSize())
         }
     }
 

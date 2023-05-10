@@ -1,4 +1,4 @@
-package raymondbdev.eyeturner.Fragments
+package raymondbdev.eyeturner.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import camp.visual.gazetracker.callback.GazeCallback
 import camp.visual.gazetracker.gaze.GazeInfo
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 import raymondbdev.eyeturner.Model.GazeTrackerHelper
 import raymondbdev.eyeturner.Model.ParentViewModel
 import raymondbdev.eyeturner.databinding.FragmentSearchBinding
 
+/**
+ * Unused Fragment (may implement later)
+ */
 class SearchFragment : Fragment() {
     private var binding: FragmentSearchBinding? = null
     private var parentViewModel: ParentViewModel? = null

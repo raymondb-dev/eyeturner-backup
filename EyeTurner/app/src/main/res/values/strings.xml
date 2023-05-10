@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Eye Turner</string>
     <string name="action_settings">Settings</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -10,17 +11,25 @@
     <!-- Button Text-->
     <string name="file_button">Add File</string>
     <string name="tutorial_button">Go To Tutorial</string>
-    <string name="return_to_library_button">Return To Library (Look Up)</string>
-    <string name="select_book_button">Select Book (Look Up)</string>
-    <string name="settings_button">Configure Settings (Look Down)</string>
+    <string name="return_to_library_button">Return To Library</string>
+    <string name="select_book_button">Select Book</string>
+    <string name="settings_button">Configure Settings</string>
+    <string name="clear_library_button">Clear Library</string>
+    <string name="replay_tutorial">Replay Tutorial</string>
+    <string name="next_book">Next Book</string>
+    <string name="previous_book">Prev Book</string>
 
     <!-- Tutorial Text -->
     <string name="look_outside_text">You must look outside of the screen to trigger the gesture</string>
-    <string name="perform_look_up_text">Perform "Look Up" Gesture 3 Times</string>
-    <string name="perform_look_down_text">Perform "Look Down" Gesture 3 Times</string>
     <string name="perform_look_left_text">Perform "Look Left" Gesture 3 Times</string>
     <string name="perform_look_right_text">Perform "Look Right" Gesture 3 Times</string>
+    <string name="performed_quot_look_down_quot_gesture_x_3">Performed \"Look Down\" Gesture x 3</string>
+    <string name="performed_quot_look_up_quot_gesture_x_3">Performed \"Look Up\" Gesture x 3</string>
     <string name="perform_blink_text">Blink 3 Times</string>
+
+    <!-- Settings Text -->
+    <string name="font_size">Change Font Size (←→)</string>
+    <string name="dark_mode">Enable Vibrate (↓)</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -38,4 +47,16 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textview">TextView</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="interactions_text">In EyeTurner, we use the following symbols to denote specific types of interactions:</string>
+    <string name="look_left">: Look Left</string>
+    <string name="look_right">: Look Right</string>
+    <string name="look_up">: Look Up</string>
+    <string name="look_down">: Look Down</string>
+    <string name="touch">: Touch</string>
+    <string name="finish_tutorial">Finish Tutorial</string>
+
+
 </resources>

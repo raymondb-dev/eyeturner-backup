@@ -1,15 +1,17 @@
-package raymondbdev.eyeturner.Fragments
+package raymondbdev.eyeturner.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import camp.visual.gazetracker.callback.GazeCallback
 import camp.visual.gazetracker.gaze.GazeInfo
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 import raymondbdev.eyeturner.Model.GazeTrackerHelper
 import raymondbdev.eyeturner.Model.ParentViewModel
 import raymondbdev.eyeturner.R
@@ -49,17 +51,29 @@ class TutorialFragment1 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        gazeTrackerHelper!!.setGazeCallback(tutorialGazeCallBack1)
-        gazeTrackerHelper!!.startTracking()
 
         // Inflate the layout for this fragment
         binding = FragmentTutorial1Binding.inflate(inflater, container, false)
-        return binding!!.getRoot()
+        setupTracker()
+
+        return binding!!.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    fun setupTracker() {
+        gazeTrackerHelper!!.setGazeCallback(tutorialGazeCallBack1)
+
+        if(gazeTrackerHelper!!.exists()) {
+            gazeTrackerHelper!!.startTracking()
+        } else {
+            // the sole GazeTracker instance is initialised here
+            gazeTrackerHelper!!.initGazeTracker()
+            Toast.makeText(requireContext(), "Loading Eye Tracking", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun finishTutorial() {

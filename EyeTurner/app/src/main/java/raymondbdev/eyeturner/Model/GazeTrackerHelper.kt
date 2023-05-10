@@ -9,7 +9,7 @@ import camp.visual.gazetracker.callback.UserStatusCallback
 import camp.visual.gazetracker.constant.InitializationErrorType
 import camp.visual.gazetracker.constant.UserStatusOption
 import camp.visual.gazetracker.gaze.GazeInfo
-import raymondbdev.eyeturner.Model.Enums.EyeGesture
+import raymondbdev.eyeturner.Model.enums.EyeGesture
 import java.lang.ref.WeakReference
 
 class GazeTrackerHelper(context: Context) {
@@ -86,7 +86,6 @@ class GazeTrackerHelper(context: Context) {
         }
 
         Log.w("SeeSo", "Initialization Error: $err")
-        initGazeTracker()
     }
 
     fun deinitGazeTracker() {

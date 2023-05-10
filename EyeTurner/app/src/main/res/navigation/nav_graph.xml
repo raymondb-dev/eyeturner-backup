@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/libraryFragment">
+    app:startDestination="@id/firstBootScreenFragment">
 
     <fragment
         android:id="@+id/libraryFragment"
-        android:name="raymondbdev.eyeturner.Fragments.LibraryFragment"
+        android:name="raymondbdev.eyeturner.fragments.LibraryFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_library">
         <action
@@ -15,26 +15,35 @@
             app:destination="@id/tutorial1" />
         <action
             android:id="@+id/LibraryToPage_Transition"
-            app:destination="@id/pageFragment" />
+            app:destination="@id/pageFragment"
+            app:enterAnim="@anim/slide_up_in"
+            app:exitAnim="@anim/slide_up_out"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/slide_down_out" />
         <action
             android:id="@+id/LibraryToSettings_Transition"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_down_in"
+            app:exitAnim="@anim/slide_down_out"
+            app:popEnterAnim="@anim/slide_up_in"
+            app:popExitAnim="@anim/slide_up_out" />
         <action
             android:id="@+id/LibraryToSearch_Transition"
             app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/tutorial1"
-        android:name="raymondbdev.eyeturner.Fragments.TutorialFragment1"
+        android:name="raymondbdev.eyeturner.fragments.TutorialFragment1"
         android:label="action_library_to_tutorial_start"
         tools:layout="@layout/fragment_tutorial1" >
         <action
             android:id="@+id/action_completeTutorial1"
-            app:destination="@id/tutorial2" />
+            app:destination="@id/tutorial2"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/tutorial2"
-        android:name="raymondbdev.eyeturner.Fragments.TutorialFragment2"
+        android:name="raymondbdev.eyeturner.fragments.TutorialFragment2"
         android:label="fragment_tutorial2"
         tools:layout="@layout/fragment_tutorial2" >
         <action
@@ -43,12 +52,16 @@
     </fragment>
     <fragment
         android:id="@+id/pageFragment"
-        android:name="raymondbdev.eyeturner.Fragments.PageFragment"
+        android:name="raymondbdev.eyeturner.fragments.PageFragment"
         android:label="fragment_page"
-        tools:layout="@layout/fragment_page" />
+        tools:layout="@layout/fragment_page" >
+        <action
+            android:id="@+id/PageToSettings_Transition"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/tutorial3"
-        android:name="raymondbdev.eyeturner.Fragments.TutorialFragment3"
+        android:name="raymondbdev.eyeturner.fragments.TutorialFragment3"
         android:label="fragment_tutorial3"
         tools:layout="@layout/fragment_tutorial3" >
         <action
@@ -57,21 +70,24 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="raymondbdev.eyeturner.Fragments.SettingsFragment"
+        android:name="raymondbdev.eyeturner.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="raymondbdev.eyeturner.Fragments.SearchFragment"
+        android:name="raymondbdev.eyeturner.fragments.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/splashScreenFragment"
-        android:name="raymondbdev.eyeturner.SplashScreenFragment"
-        android:label="fragment_splash_screen"
-        tools:layout="@layout/fragment_splash_screen" >
+        android:id="@+id/firstBootScreenFragment"
+        android:name="raymondbdev.eyeturner.fragments.FirstBootScreenFragment"
+        android:label="fragment_first_boot_screen"
+        tools:layout="@layout/fragment_first_boot_screen" >
         <action
-            android:id="@+id/action_splashScreenFragment_to_libraryFragment"
+            android:id="@+id/BootToTutorial_Transition"
+            app:destination="@id/tutorial1" />
+        <action
+            android:id="@+id/BootToLibrary_Transition"
             app:destination="@id/libraryFragment" />
     </fragment>
 </navigation>
