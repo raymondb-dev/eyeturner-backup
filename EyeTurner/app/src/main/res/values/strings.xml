@@ -21,8 +21,8 @@
 
     <!-- Tutorial Text -->
     <string name="look_outside_text">You must look outside of the screen to trigger the gesture</string>
-    <string name="perform_look_left_text">Perform "Look Left" Gesture 3 Times</string>
-    <string name="perform_look_right_text">Perform "Look Right" Gesture 3 Times</string>
+    <string name="perform_look_left_text">Perform \"Look Left\" Gesture</string>
+    <string name="perform_look_right_text">Perform \"Look Right\" Gesture</string>
     <string name="performed_quot_look_down_quot_gesture_x_3">Performed \"Look Down\" Gesture x 3</string>
     <string name="performed_quot_look_up_quot_gesture_x_3">Performed \"Look Up\" Gesture x 3</string>
     <string name="perform_blink_text">Blink 3 Times</string>
