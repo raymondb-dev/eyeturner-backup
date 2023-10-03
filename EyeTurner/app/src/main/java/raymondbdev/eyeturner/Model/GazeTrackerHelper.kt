@@ -12,8 +12,9 @@ import camp.visual.gazetracker.gaze.GazeInfo
 import raymondbdev.eyeturner.Model.enums.EyeGesture
 import java.lang.ref.WeakReference
 
-class GazeTrackerHelper(context: Context) {
-    private val devKey = "dev_e6fixnnc0ecu5dlchqtm318pr5h45h3s8cgsg4ew"
+class GazeTrackerHelper(context: Context, newDevKey: String) {
+    private val devKey: String // put SeeSo Dev key here.
+
     private val mContext: WeakReference<Context>
     private var gazeCallback: GazeCallback? = null
     private var userStatusCallback: UserStatusCallback? = null
@@ -33,6 +34,7 @@ class GazeTrackerHelper(context: Context) {
 
     init {
         mContext = WeakReference(context)
+        devKey = newDevKey
     }
 
     fun calculateEyeGesture(gazeInfo: GazeInfo): EyeGesture {
