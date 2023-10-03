@@ -1,6 +1,6 @@
 # GazeTurner
 ## An eReading application controlled using your eyes
-<img src="https://github.com/raymondb-dev/eyeturner-backup/blob/main/app.jpg?raw=true" height="600">
+<img src="https://github.com/raymondb-dev/eyeturner-backup/blob/main/images/app.jpg?raw=true" height="600">
 GazeTurner is designed for people who struggle with using touchscreens, such as those afflicted with muscle spasticity or poor muscle control. 
 
 ### Features
@@ -34,7 +34,7 @@ GazeTurner is designed for people who struggle with using touchscreens, such as 
 6. Enjoy!
 
 ## How to use
-<img src="https://github.com/raymondb-dev/eyeturner-backup/blob/main/gestures.png?raw=true" width="600">
+<img src="https://github.com/raymondb-dev/eyeturner-backup/blob/main/images/gestures.png?raw=true" width="600">
 
 ### Add Books
 To add new eBooks to your library, select "Add Books" on the main page to bring up the Android file picker. By default it opens on your Download folder, so please place your files there for convenience. You can only select files with the '.epub' file extension. 
