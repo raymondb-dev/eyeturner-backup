@@ -2,7 +2,9 @@
 ## An eReading application controlled using your eyes
 GazeTurner is designed for people who struggle with using touchscreens, such as those afflicted with muscle spasticity or poor muscle control. 
 
-**Features:
+![alt text](https://github.com/raymondb-dev/eyeturner-backup/blob/main/images/app.jpg?raw=true)
+
+### Features
 - [x] Hands-free navigation
 - [x] Control the turning of pages with your eyes
 - [x] Add books to your library
@@ -12,7 +14,7 @@ GazeTurner is designed for people who struggle with using touchscreens, such as 
 - [ ] Support for Dark Mode
 
 ## How to install
-Prerequisites:
+**Prerequisites:**
 - Android Studio
 - A real Android device on Android 11 or higher
 - SeeSo SDK License (see below)
@@ -33,17 +35,18 @@ Prerequisites:
 6. Enjoy!
 
 ## How to use
-(insert image of eye gesture set)
-**Add Books**
+![alt text](https://github.com/raymondb-dev/eyeturner-backup/blob/main/images/gestures.jpg?raw=true)
+
+### Add Books
 To add new eBooks to your library, select "Add Books" on the main page to bring up the Android file picker. By default it opens on your Download folder, so please place your files there for convenience. You can only select files with the '.epub' file extension. 
 
-**Select Books**
+### Select Books
 Perform "LOOK LEFT" or "LOOK RIGHT" gestures to scroll backwards and forwards through your library of books. Perform a "LOOK UP" gesture to open the selected book. 
 
-**Read Books**
+### Read Books
 On the reading view, perform "LOOK LEFT" or "LOOK RIGHT" gestures to turn the pages of your select book. 
 
-**Change Font Size**
+### Change Font Size
 On the main page, perform a "LOOK DOWN" gesture to open settings. On this page, perform "LOOK LEFT" or "LOOK RIGHT" gestures to change the font size of the application. 
 
 
