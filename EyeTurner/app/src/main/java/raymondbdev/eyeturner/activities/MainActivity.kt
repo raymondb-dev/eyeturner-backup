@@ -35,7 +35,10 @@ class MainActivity: AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        gazeTrackerHelper = GazeTrackerHelper(applicationContext)
+        // PASTE YOUR DEV KEY HERE
+        val yourDevKey = "dev_p41hlwcm3l84jjb55ujlflb6hf8mwjxq49l774yu"
+
+        gazeTrackerHelper = GazeTrackerHelper(applicationContext, yourDevKey)
 
         val reader = Reader()
         val libraryDBHelper = LibraryDBHelper(this)
