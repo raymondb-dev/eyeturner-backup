@@ -35,7 +35,7 @@ class MainActivity: AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        // PASTE YOUR DEV KEY HERE
+        // TODO: PASTE YOUR DEV KEY HERE
         val yourDevKey = "dev_p41hlwcm3l84jjb55ujlflb6hf8mwjxq49l774yu"
 
         gazeTrackerHelper = GazeTrackerHelper(applicationContext, yourDevKey)
