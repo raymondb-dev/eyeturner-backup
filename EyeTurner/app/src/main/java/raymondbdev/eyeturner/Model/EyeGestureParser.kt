@@ -11,8 +11,8 @@ import raymondbdev.eyeturner.Model.enums.EyeGesture
  */
 class EyeGestureParser {
     // Gesture boundaries for the phone (tested on Google Pixel 6 Pro)
-    var LEFT_BOUNDARY = -200
-    var RIGHT_BOUNDARY = 1700
+    var LEFT_BOUNDARY = -1100
+    var RIGHT_BOUNDARY = 700
     var TOP_BOUNDARY = -700
     var BOTTOM_BOUNDARY = 2400
 
